@@ -88,7 +88,7 @@ main{max-width:1120px;padding:34px 24px 64px}
 <h1>அலகு 1 — விநாயகர்</h1>
 <p>விளையாடிக் கற்போம் 🎮</p>
 <div class="progress"><div id="bar"></div></div>
-<small id="progressText">0 / 8 பயிற்சிகள் நிறைவு</small>
+<small id="progressText">0 / 10 பயிற்சிகள் நிறைவு</small>
 </header>
 <main><p><a href="../" style="font-weight:800;color:#147e69;text-decoration:none">← தரம் 6 முகப்பு</a></p>
 <div class="portal">
@@ -246,7 +246,7 @@ function renderFindError(){
  const card=document.createElement("div");card.className="card";box.appendChild(card);
  function draw(){const x=ERROR_Q[pos];card.innerHTML="<h2>🔎 தவறைக் கண்டுபிடிப்போம்</h2><p><b>கூற்று "+(pos+1)+" / "+ERROR_Q.length+"</b></p><p style='font-size:20px;line-height:1.8'>"+x.q+"</p><div class='answers' id='errAns'></div><div id='errFeed' class='feedback' role='status'></div><div class='note'>சரி / தவறு என்பதைத் தேர்ந்தெடுத்து, விளக்கத்தைப் படிக்கவும்.</div>";
  const ans=card.querySelector("#errAns"),feed=card.querySelector("#errFeed");
- x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ ":"✗ ")+x.why;setTimeout(function(){pos++;if(pos<ERROR_Q.length)draw();else{card.innerHTML="<h2>🔎 தவறைக் கண்டுபிடிப்போம்</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+ERROR_Q.length+" சரி</div><div class='note'><b>மீள்பார்வை:</b> தவறான தகவலைக் கண்டறிந்து சரியான கருத்தை நினைவில் கொள்ளுங்கள்.</div>";completed.add("finderror");updateProgress();}},1400)};ans.appendChild(b);});}
+ x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ ":"✗ ")+x.why;var next=document.createElement("button");next.type="button";next.className="check-sequence";next.style.marginTop="14px";next.textContent=(pos<ERROR_Q.length-1?"அடுத்த கேள்வி →":"முடிவைப் பார்க்க →");next.onclick=function(){pos++;if(pos<ERROR_Q.length)draw();else{card.innerHTML="<h2>🔎 தவறைக் கண்டுபிடிப்போம்</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+ERROR_Q.length+" சரி</div><div class='note'><b>மீள்பார்வை:</b> தவறான தகவலைக் கண்டறிந்து சரியான கருத்தை நினைவில் கொள்ளுங்கள்.</div>";completed.add("finderror");updateProgress();}};feed.insertAdjacentElement("afterend",next)};ans.appendChild(b);});}
  draw();
 }
 const CAUSE_Q=[
@@ -258,7 +258,7 @@ function renderCause(){
  box.innerHTML="";let pos=0,score=0;const card=document.createElement("div");card.className="card";box.appendChild(card);
  function draw(){const x=CAUSE_Q[pos];card.innerHTML="<h2>🔗 காரணம் → விளைவு</h2><p><b>"+(pos+1)+" / "+CAUSE_Q.length+"</b></p><p style='font-size:20px;line-height:1.8'>"+x.q+"</p><div class='answers' id='causeAns'></div><div id='causeFeed' class='feedback' role='status'></div>";
  const ans=card.querySelector("#causeAns"),feed=card.querySelector("#causeFeed");
- x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ சரி! ":"✗ மீண்டும் நினைத்துப் பார்ப்போம். ")+x.why;setTimeout(function(){pos++;if(pos<CAUSE_Q.length)draw();else{card.innerHTML="<h2>🔗 காரணம் → விளைவு</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+CAUSE_Q.length+" சரி</div><div class='note'><b>நினைவில் கொள்வோம்:</b> வழிபாட்டு முறைகளுக்கும் அவற்றுடன் தொடர்புடைய கதைகளுக்கும் உள்ள தொடர்பைப் புரிந்துகொள்வோம்.</div>";completed.add("cause");updateProgress();}},1700)};ans.appendChild(b);});}
+ x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ சரி! ":"✗ மீண்டும் நினைத்துப் பார்ப்போம். ")+x.why;var next=document.createElement("button");next.type="button";next.className="check-sequence";next.style.marginTop="14px";next.textContent=(pos<CAUSE_Q.length-1?"அடுத்த கேள்வி →":"முடிவைப் பார்க்க →");next.onclick=function(){pos++;if(pos<CAUSE_Q.length)draw();else{card.innerHTML="<h2>🔗 காரணம் → விளைவு</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+CAUSE_Q.length+" சரி</div><div class='note'><b>நினைவில் கொள்வோம்:</b> வழிபாட்டு முறைகளுக்கும் அவற்றுடன் தொடர்புடைய கதைகளுக்கும் உள்ள தொடர்பைப் புரிந்துகொள்வோம்.</div>";completed.add("cause");updateProgress();}};feed.insertAdjacentElement("afterend",next)};ans.appendChild(b);});}
  draw();
 }
 const HAND_PAIRS=[
@@ -384,8 +384,8 @@ function checkAgathiyar(){
 }
 
 function updateProgress(){
- document.getElementById("bar").style.width=(completed.size/8*100)+"%";
- document.getElementById("progressText").textContent=completed.size+" / 8 பயிற்சிகள் நிறைவு";
+ document.getElementById("bar").style.width=(completed.size/10*100)+"%";
+ document.getElementById("progressText").textContent=completed.size+" / 10 பயிற்சிகள் நிறைவு";
 }
 })();
 </script>
