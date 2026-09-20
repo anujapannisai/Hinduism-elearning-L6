@@ -137,6 +137,8 @@ main{max-width:1120px;padding:34px 24px 64px}
 <button class="module" data-module="gaja"><span class="icon">🐭</span><b>கஜமுகாசுரன்</b><small>கதையை நினைவுகூர்வோம்</small></button>
 <button class="module" data-module="thoppu"><span class="icon">🙏</span><b>தோப்புக்கரணம்</b><small>சரியான முறை</small></button>
 <button class="module" data-module="vratham"><span class="icon">🌸</span><b>விநாயகர் சட்டி (சஷ்டி) விரதம்</b><small>விரதத்தை அறிந்துகொள்வோம்</small></button>
+<button class="module" data-module="finderror"><span class="icon">🔎</span><b>தவறைக் கண்டுபிடிப்போம்</b><small>கூற்றைத் திருத்துவோம்</small></button>
+<button class="module" data-module="cause"><span class="icon">🔗</span><b>காரணம் → விளைவு</b><small>கதை மற்றும் வழிபாடு</small></button>
 </div>
 </section>
 <section id="activity" class="hidden">
@@ -204,7 +206,7 @@ document.querySelectorAll("[data-module]").forEach(btn=>{
 document.getElementById("back").addEventListener("click",()=>{activity.classList.add("hidden");home.classList.remove("hidden")});
 function openModule(id){
  home.classList.add("hidden"); activity.classList.remove("hidden");
- if(id==="hands"){renderHands();window.scrollTo({top:0,behavior:"smooth"});return;} if(id==="agathiyar"){renderAgathiyar();window.scrollTo({top:0,behavior:"smooth"});return;}
+ if(id==="hands"){renderHands();window.scrollTo({top:0,behavior:"smooth"});return;} if(id==="agathiyar"){renderAgathiyar();window.scrollTo({top:0,behavior:"smooth"});return;} if(id==="finderror"){renderFindError();window.scrollTo({top:0,behavior:"smooth"});return;} if(id==="cause"){renderCause();window.scrollTo({top:0,behavior:"smooth"});return;}
  const m=DATA[id];
  box.innerHTML="";
  const card=document.createElement("div"); card.className="card";
@@ -233,6 +235,32 @@ function openModule(id){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
+const ERROR_Q=[
+ {q:"விநாயகரின் மூன்று கண்கள் சூரியன், சந்திரன், பூமி ஆகியவற்றைக் குறிக்கின்றன.",choices:["சரி","தவறு"],a:1,why:"தவறு — பூமி அல்ல; மூன்றாவது கண் அக்னியைக் குறிக்கிறது."},
+ {q:"மோதகம் ஏந்திய கை காத்தல் தொழிலைக் குறிக்கிறது.",choices:["சரி","தவறு"],a:0,why:"சரி — மோதகம் ஏந்திய கை காத்தலைக் குறிக்கிறது."},
+ {q:"தோப்புக்கரணத்தில் வலக்காதை வலது கையால் பிடிக்க வேண்டும்.",choices:["சரி","தவறு"],a:1,why:"தவறு — வலக்காதை இடது கையாலும், இடக்காதை வலது கையாலும் பிடிக்க வேண்டும்."},
+ {q:"விநாயக சட்டி (சஷ்டி) விரதம் இருபத்தொரு நாட்கள் அனுட்டிக்கப்படும்.",choices:["சரி","தவறு"],a:0,why:"சரி — இந்த விரதம் 21 நாட்கள் அனுட்டிக்கப்படும்."}
+];
+function renderFindError(){
+ box.innerHTML="";let pos=0,score=0;
+ const card=document.createElement("div");card.className="card";box.appendChild(card);
+ function draw(){const x=ERROR_Q[pos];card.innerHTML="<h2>🔎 தவறைக் கண்டுபிடிப்போம்</h2><p><b>கூற்று "+(pos+1)+" / "+ERROR_Q.length+"</b></p><p style='font-size:20px;line-height:1.8'>"+x.q+"</p><div class='answers' id='errAns'></div><div id='errFeed' class='feedback' role='status'></div><div class='note'>சரி / தவறு என்பதைத் தேர்ந்தெடுத்து, விளக்கத்தைப் படிக்கவும்.</div>";
+ const ans=card.querySelector("#errAns"),feed=card.querySelector("#errFeed");
+ x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ ":"✗ ")+x.why;setTimeout(function(){pos++;if(pos<ERROR_Q.length)draw();else{card.innerHTML="<h2>🔎 தவறைக் கண்டுபிடிப்போம்</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+ERROR_Q.length+" சரி</div><div class='note'><b>மீள்பார்வை:</b> தவறான தகவலைக் கண்டறிந்து சரியான கருத்தை நினைவில் கொள்ளுங்கள்.</div>";completed.add("finderror");updateProgress();}},1400)};ans.appendChild(b);});}
+ draw();
+}
+const CAUSE_Q=[
+ {q:"அகத்தியர் கதையுடன் தொடர்புடைய வழிபாடு எது?",choices:["குட்டிக் கும்பிடுதல்","தோப்புக்கரணம்","சிதறு தேங்காய்"],a:0,why:"அகத்தியர் தனது நெற்றியின் இருபக்கமும் குட்டிக் கொண்டு அருள் வேண்டினார்."},
+ {q:"கஜமுகாசுரன் கதையுடன் தொடர்புடைய வழிபாடு எது?",choices:["பிள்ளையார் சுழி","தோப்புக்கரணம்","குட்டிக் கும்பிடுதல்"],a:1,why:"தேவர்கள் பின்னர் விநாயகருக்கு முன் மூன்று முறை தோப்புக்கரணம் செய்யத் தொடங்கினர்."},
+ {q:"சிதறு தேங்காய் உடைத்து வழிபடுவதன் கருத்து எது?",choices:["அகங்காரம், கஷ்டங்கள் சிதறுதல்","21 நாள் விரதம்","ஐந்தொழில்கள்"],a:0,why:"தமது பாவங்கள், கஷ்டங்கள், அகங்காரம் சிதறுண்டு போவதற்காக சிதறு தேங்காய் உடைத்து வழிபடுகின்றனர்."}
+];
+function renderCause(){
+ box.innerHTML="";let pos=0,score=0;const card=document.createElement("div");card.className="card";box.appendChild(card);
+ function draw(){const x=CAUSE_Q[pos];card.innerHTML="<h2>🔗 காரணம் → விளைவு</h2><p><b>"+(pos+1)+" / "+CAUSE_Q.length+"</b></p><p style='font-size:20px;line-height:1.8'>"+x.q+"</p><div class='answers' id='causeAns'></div><div id='causeFeed' class='feedback' role='status'></div>";
+ const ans=card.querySelector("#causeAns"),feed=card.querySelector("#causeFeed");
+ x.choices.forEach(function(c,i){const b=document.createElement("button");b.className="answer";b.textContent=c;b.onclick=function(){ans.querySelectorAll("button").forEach(y=>y.disabled=true);feed.className="feedback show "+(i===x.a?"good":"bad");if(i===x.a)score++;feed.textContent=(i===x.a?"✓ சரி! ":"✗ மீண்டும் நினைத்துப் பார்ப்போம். ")+x.why;setTimeout(function(){pos++;if(pos<CAUSE_Q.length)draw();else{card.innerHTML="<h2>🔗 காரணம் → விளைவு</h2><div class='feedback show good'>முடிந்தது! "+score+" / "+CAUSE_Q.length+" சரி</div><div class='note'><b>நினைவில் கொள்வோம்:</b> வழிபாட்டு முறைகளுக்கும் அவற்றுடன் தொடர்புடைய கதைகளுக்கும் உள்ள தொடர்பைப் புரிந்துகொள்வோம்.</div>";completed.add("cause");updateProgress();}},1700)};ans.appendChild(b);});}
+ draw();
+}
 const HAND_PAIRS=[
  ["எழுத்தாணி","படைத்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/ezhuthaani.png"],
  ["மோதகம்","காத்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/modhagam.png"],
