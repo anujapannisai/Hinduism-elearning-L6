@@ -170,18 +170,167 @@ readingSections.forEach((s,i)=>{
  d.querySelectorAll("[data-speed]").forEach(btn=>btn.addEventListener("click",()=>{a.playbackRate=Number(btn.dataset.speed);d.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active-speed"));btn.classList.add("active-speed")}));
  d.querySelector('[data-speed="1"]').classList.add("active-speed");
 });
+const tabs={tabRead:"reading",tabListen:"listening",tabPlay:"home"};
+Object.entries(tabs).forEach(([b,s])=>document.getElementById(b).addEventListener("click",()=>{["reading","listening","home","activity"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById(s).classList.remove("hidden");document.querySelectorAll(".portal button").forEach(x=>x.classList.remove("active"));document.getElementById(b).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}));
 
-// Main section navigation
-const sectionIds=["reading","listening","home","activity"];
-function showSection(sectionId,buttonId){
- sectionIds.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add("hidden");});
- const target=document.getElementById(sectionId);if(target)target.classList.remove("hidden");
- document.querySelectorAll(".portal button").forEach(b=>b.classList.remove("active"));
- const btn=document.getElementById(buttonId);if(btn)btn.classList.add("active");
+const home=document.getElementById("home"), activity=document.getElementById("activity"), box=document.getElementById("activityBox");
+document.querySelectorAll("[data-module]").forEach(btn=>{
+ btn.addEventListener("click",()=>openModule(btn.dataset.module));
+});
+document.getElementById("back").addEventListener("click",()=>{activity.classList.add("hidden");home.classList.remove("hidden")});
+function openModule(id){
+ home.classList.add("hidden"); activity.classList.remove("hidden");
+ if(id==="hands"){renderHands();window.scrollTo({top:0,behavior:"smooth"});return;} if(id==="agathiyar"){renderAgathiyar();window.scrollTo({top:0,behavior:"smooth"});return;}
+ const m=DATA[id];
+ box.innerHTML="";
+ const card=document.createElement("div"); card.className="card";
+ const h=document.createElement("h2"); h.textContent=m.title; card.appendChild(h);
+ const q=document.createElement("p"); q.innerHTML="<b>"+m.question+"</b>"; card.appendChild(q);
+ const answers=document.createElement("div"); answers.className="answers";
+ const feedback=document.createElement("div"); feedback.className="feedback"; feedback.setAttribute("role","status"); feedback.setAttribute("aria-live","polite");
+ m.choices.forEach((choice,index)=>{
+   const b=document.createElement("button"); b.className="answer"; b.type="button"; b.textContent=choice;
+   b.addEventListener("click",()=>{
+      answers.querySelectorAll(".answer").forEach(x=>x.classList.remove("correct","wrong"));
+      feedback.className="feedback show";
+      if(index===m.answer){
+        b.classList.add("correct"); feedback.classList.add("good");
+        feedback.textContent="✓ சரி! அருமை!"; completed.add(id); updateProgress();
+      }else{
+        b.classList.add("wrong"); feedback.classList.add("bad");
+        feedback.textContent="✗ இன்னும் இல்லை. மீண்டும் முயற்சி செய்.";
+      }
+   });
+   answers.appendChild(b);
+ });
+ card.appendChild(answers); card.appendChild(feedback);
+ const note=document.createElement("div"); note.className="note"; note.innerHTML="<b>நினைவில் கொள்வோம்:</b> "+m.note; card.appendChild(note);
+ box.appendChild(card);
+ window.scrollTo({top:0,behavior:"smooth"});
 }
-document.getElementById("tabRead").addEventListener("click",()=>showSection("reading","tabRead"));
-document.getElementById("tabListen").addEventListener("click",()=>showSection("listening","tabListen"));
-document.getElementById("tabPlay").addEventListener("click",()=>showSection("home","tabPlay"));
+
+const HAND_PAIRS=[
+ ["எழுத்தாணி","படைத்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/ezhuthaani.png"],
+ ["மோதகம்","காத்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/modhagam.png"],
+ ["அங்குசம்","அழித்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/angusam.png"],
+ ["பாசம்","மறைத்தல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/paasam.png"],
+ ["அமுத கலசம் ஏந்திய துதிக்கை","அருளல்","https://raw.githubusercontent.com/anujapannisai/Hinduism-elearning-L6/main/assets/amutha_kalasam.png"]
+];
+let selectedHand=null, handMatches=0;
+
+function renderHands(){
+ handMatches=0; selectedHand=null; box.innerHTML="";
+ const card=document.createElement("div"); card.className="card";
+ card.innerHTML=`<h2>ஐந்து கரங்கள் — ஐந்தொழில்கள்</h2>
+ <p>ஒவ்வொரு பொருளையும் சரியான தொழிலுடன் பொருத்துங்கள்.</p>
+ <div class="match-help">💡 கணினியில் <b>drag & drop</b> செய்யலாம். தொலைபேசி / iPad-ல் ஒரு பொருளைத் தொட்டு, பின்னர் சரியான தொழிலைத் தொடவும்.</div>
+ <div class="match-area">
+   <div class="match-column" id="dragItems"></div>
+   <div class="match-column" id="dropZones"></div>
+ </div>
+ <div id="matchFeedback" class="feedback" role="status" aria-live="polite"></div>
+ <div id="matchScore" class="match-score">0 / 5 சரி</div>
+ <div class="note"><b>நினைவில் கொள்வோம்:</b> விநாயகரின் ஐந்து கரங்களும் ஐந்தொழில்களைக் குறிக்கின்றன.</div>`;
+ box.appendChild(card);
+ const items=[...HAND_PAIRS].sort(()=>Math.random()-.5);
+ const zones=[...HAND_PAIRS].map(x=>x[1]).sort(()=>Math.random()-.5);
+ const itemBox=document.getElementById("dragItems"), zoneBox=document.getElementById("dropZones");
+ items.forEach(([label,answer,img],i)=>{
+   const el=document.createElement("div"); el.className="drag-item"; el.draggable=true;
+   el.innerHTML=`<img src="${img}" alt=""><span class="hand-label">${label}</span>`; el.dataset.label=label; el.dataset.answer=answer; el.id="hand-"+i;
+   el.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",el.id);});
+   el.addEventListener("click",()=>selectHand(el));
+   itemBox.appendChild(el);
+ });
+ zones.forEach(answer=>{
+   const z=document.createElement("div"); z.className="drop-zone"; z.dataset.answer=answer; z.innerHTML=`<span>${answer}</span><span>⬅️</span>`;
+   z.addEventListener("dragover",e=>e.preventDefault());
+   z.addEventListener("drop",e=>{e.preventDefault();const el=document.getElementById(e.dataTransfer.getData("text/plain"));tryMatch(el,z);});
+   z.addEventListener("click",()=>{if(selectedHand)tryMatch(selectedHand,z);});
+   zoneBox.appendChild(z);
+ });
+}
+function selectHand(el){
+ if(el.classList.contains("matched"))return;
+ document.querySelectorAll(".drag-item").forEach(x=>x.classList.remove("selected"));
+ selectedHand=el; el.classList.add("selected");
+}
+function tryMatch(el,zone){
+ if(!el || el.classList.contains("matched") || zone.classList.contains("correct"))return;
+ const f=document.getElementById("matchFeedback");
+ f.className="feedback show";
+ if(el.dataset.answer===zone.dataset.answer){
+   el.classList.remove("selected"); el.classList.add("matched"); el.draggable=false;
+   zone.classList.add("correct"); zone.lastElementChild.textContent="✓";
+   zone.appendChild(el);
+   selectedHand=null; handMatches++;
+   document.getElementById("matchScore").textContent=handMatches+" / 5 சரி";
+   f.classList.add("good"); f.textContent="✓ சரி! "+el.dataset.label+" → "+zone.dataset.answer;
+   if(handMatches===5){
+      f.textContent="🌟 அருமை! ஐந்து கரங்களையும் ஐந்தொழில்களுடன் சரியாகப் பொருத்திவிட்டீர்கள் — 5 / 5!";
+      completed.add("hands"); updateProgress();
+   }
+ }else{
+   el.classList.remove("selected"); selectedHand=null;
+   f.classList.add("bad"); f.textContent="✗ அது சரியான பொருத்தம் அல்ல. மீண்டும் முயற்சி செய்.";
+ }
+}
+
+const AGATHIYAR_STORY=[
+ "அகத்தியர் கமண்டலத்துடன் இருந்தார்.",
+ "பிள்ளையார் காகமாக உருவெடுத்து வந்து கமண்டலத்தைக் கவிழ்த்தார்.",
+ "கமண்டலத்தில் இருந்த காவிரி நீர் பெருக்கெடுத்து ஓடியது.",
+ "அகத்தியர் காகத்தைத் துரத்தினார்; காகமாக இருந்த பிள்ளையார் சிறுவனாக மாறினார்.",
+ "அகத்தியர் அச்சிறுவனைப் பிடித்துக் குட்ட நினைத்தபோது, பிள்ளையார் தனது உண்மை உருவத்தைக் காட்டினார்.",
+ "அகத்தியர் தன்னை நொந்து, தனது நெற்றியின் இருபக்கமும் குட்டிக் கொண்டு அருள் வேண்டினார்."
+];
+function shuffledStory(){
+ let a=AGATHIYAR_STORY.map((text,index)=>({text,index}));
+ // deterministic shuffled start so it is always actually mixed
+ return [a[2],a[0],a[4],a[1],a[5],a[3]];
+}
+function renderAgathiyar(){
+ box.innerHTML="";
+ const card=document.createElement("div"); card.className="card";
+ card.innerHTML=`<h2>🐦 அகத்தியர் கதை — வரிசைப்படுத்துவோம்</h2>
+ <p>கதையின் நிகழ்வுகள் கலக்கப்பட்டுள்ளன. <b>▲ ▼</b> பொத்தான்களைப் பயன்படுத்தி அவற்றை 1 முதல் 6 வரை சரியான வரிசையில் அமைக்கவும்.</p>
+ <div class="sequence" id="agSeq"></div>
+ <button type="button" class="check-sequence" id="checkAg">வரிசையைச் சரிபார்</button>
+ <div id="agFeedback" class="feedback" role="status" aria-live="polite"></div>
+ <div class="note"><b>கதைக்கும் வழிபாட்டிற்கும் உள்ள தொடர்பு:</b> இந்தப் புராணக்கதையுடன் <b>குட்டிக் கும்பிடுதல்</b> தொடர்புடையது.</div>`;
+ box.appendChild(card);
+ const seq=document.getElementById("agSeq");
+ shuffledStory().forEach(obj=>addSequenceCard(seq,obj));
+ renumberSequence();
+ document.getElementById("checkAg").addEventListener("click",checkAgathiyar);
+}
+function addSequenceCard(parent,obj){
+ const row=document.createElement("div"); row.className="sequence-card"; row.dataset.original=String(obj.index);
+ const num=document.createElement("span"); num.className="num";
+ const txt=document.createElement("span"); txt.textContent=obj.text;
+ const controls=document.createElement("div"); controls.className="sequence-controls";
+ const up=document.createElement("button"); up.type="button"; up.textContent="▲"; up.setAttribute("aria-label","மேலே நகர்த்து");
+ const down=document.createElement("button"); down.type="button"; down.textContent="▼"; down.setAttribute("aria-label","கீழே நகர்த்து");
+ up.addEventListener("click",()=>{if(row.previousElementSibling)parent.insertBefore(row,row.previousElementSibling);renumberSequence();});
+ down.addEventListener("click",()=>{if(row.nextElementSibling)parent.insertBefore(row.nextElementSibling,row);renumberSequence();});
+ controls.append(up,down); row.append(num,txt,controls); parent.appendChild(row);
+}
+function renumberSequence(){
+ document.querySelectorAll("#agSeq .sequence-card").forEach((row,i)=>{row.querySelector(".num").textContent=i+1;row.classList.remove("correct-pos");});
+}
+function checkAgathiyar(){
+ const rows=[...document.querySelectorAll("#agSeq .sequence-card")];
+ const f=document.getElementById("agFeedback"); f.className="feedback show";
+ let correct=0;
+ rows.forEach((row,i)=>{if(Number(row.dataset.original)===i){row.classList.add("correct-pos");correct++;}else row.classList.remove("correct-pos");});
+ if(correct===AGATHIYAR_STORY.length){
+   f.classList.add("good"); f.textContent="🌟 அருமை! அகத்தியர் கதையை முழுவதும் சரியான வரிசையில் அமைத்துவிட்டீர்கள் — 6 / 6!";
+   completed.add("agathiyar"); updateProgress();
+ }else{
+   f.classList.add("bad"); f.textContent="இன்னும் "+correct+" / 6 இடங்கள் மட்டும் சரியாக உள்ளன. பச்சையாகக் காட்டப்பட்டவற்றை வைத்துக் கொண்டு மற்றவற்றை மீண்டும் நகர்த்திப் பாருங்கள்.";
+ }
+}
+
 function updateProgress(){
  document.getElementById("bar").style.width=(completed.size/8*100)+"%";
  document.getElementById("progressText").textContent=completed.size+" / 8 பயிற்சிகள் நிறைவு";
