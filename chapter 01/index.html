@@ -75,7 +75,12 @@ main{max-width:1120px;padding:34px 24px 64px}
 #reading>h2{font-size:32px;line-height:1.4;margin:12px 0}
 #reading>p{font-size:18px;line-height:1.8;margin-bottom:30px}
 @media(max-width:700px){#reading{padding:8px 2px 45px}#reading .reading-grid{gap:16px}#reading .reading-card summary{padding:18px;font-size:18px}#reading .reading-card p{padding:18px;font-size:16px;line-height:1.95}#reading .read-check{margin:4px 18px 18px}}
-.audio-speeds{display:flex;gap:9px;margin:0 0 16px}.audio-speeds button{border:1px solid #b9d9ce;background:#f6fbf9;border-radius:999px;padding:7px 13px;cursor:pointer;font-weight:800;color:#285a51}.audio-speeds button.active-speed{background:#dff3eb;border-color:#24955b;color:#145b36}.lesson-audio{display:block}</style>
+.audio-speeds{display:flex;gap:9px;margin:0 0 16px}.audio-speeds button{border:1px solid #b9d9ce;background:#f6fbf9;border-radius:999px;padding:7px 13px;cursor:pointer;font-weight:800;color:#285a51}.audio-speeds button.active-speed{background:#dff3eb;border-color:#24955b;color:#145b36}.lesson-audio{display:block}
+.follow-text{font-size:20px!important;line-height:2.15!important;padding:18px!important;background:#fbfdfc;border:1px solid #e0eee9;border-radius:14px}
+.follow-text .word{padding:2px 3px;border-radius:5px;transition:background .12s ease,box-shadow .12s ease}
+.follow-text .word.active-word{background:#ffe89a;box-shadow:0 0 0 2px #ffe89a}
+.follow-note{font-size:13px;color:#657c78;margin-top:6px}
+</style>
 </head>
 <body>
 <header>
@@ -163,15 +168,29 @@ const readingSections=[
 const audioFiles=["01-intro.m4a","02-thiruvuruvam.m4a","03-pranava.m4a","04-agathiyar.m4a","05-thoppukaranam.m4a","06-viratham.m4a"];
 const listenCards=document.getElementById("listenCards");
 readingSections.forEach(function(s,i){
- var d=document.createElement("div");
- d.className="reading-card";
+ var d=document.createElement("div"); d.className="reading-card";
  var title=document.createElement("h3"); title.textContent=(i+1)+". "+s[0]; d.appendChild(title);
  var audio=document.createElement("audio"); audio.controls=true; audio.preload="metadata"; audio.className="lesson-audio"; audio.style.width="100%";
  var source=document.createElement("source"); source.src="audio/"+audioFiles[i]; source.type="audio/mp4"; audio.appendChild(source); d.appendChild(audio);
  var speeds=document.createElement("div"); speeds.className="audio-speeds";
  [0.75,1,1.25].forEach(function(rate){var b=document.createElement("button");b.type="button";b.textContent=rate+"×";if(rate===1)b.classList.add("active-speed");b.addEventListener("click",function(){audio.playbackRate=rate;Array.prototype.forEach.call(speeds.querySelectorAll("button"),function(x){x.classList.remove("active-speed")});b.classList.add("active-speed")});speeds.appendChild(b)}); d.appendChild(speeds);
- var p=document.createElement("p");p.textContent=s[1];d.appendChild(p);
+ var p=document.createElement("p"); p.className="follow-text";
+ var words=s[1].trim().split(/\s+/);
+ words.forEach(function(word,wi){var span=document.createElement("span");span.className="word";span.textContent=word;p.appendChild(span);if(wi<words.length-1)p.appendChild(document.createTextNode(" "));});
+ d.appendChild(p);
+ var note=document.createElement("div");note.className="follow-note";note.textContent="கேட்டுப் படிப்போம்: ஒலியுடன் சொற்களைப் பின்தொடருங்கள்.";d.appendChild(note);
  listenCards.appendChild(d);
+ function syncWords(){
+   if(!isFinite(audio.duration)||audio.duration<=0)return;
+   var spans=p.querySelectorAll(".word");
+   var progress=Math.max(0,Math.min(0.999999,audio.currentTime/audio.duration));
+   var idx=Math.floor(progress*spans.length);
+   Array.prototype.forEach.call(spans,function(x,j){x.classList.toggle("active-word",j===idx)});
+ }
+ audio.addEventListener("timeupdate",syncWords);
+ audio.addEventListener("seeked",syncWords);
+ audio.addEventListener("loadedmetadata",syncWords);
+ audio.addEventListener("ended",function(){Array.prototype.forEach.call(p.querySelectorAll(".word"),function(x){x.classList.remove("active-word")})});
 });
 const tabs={tabRead:"reading",tabListen:"listening",tabPlay:"home"};
 Object.entries(tabs).forEach(([b,s])=>document.getElementById(b).addEventListener("click",()=>{["reading","listening","home","activity"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById(s).classList.remove("hidden");document.querySelectorAll(".portal button").forEach(x=>x.classList.remove("active"));document.getElementById(b).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}));
