@@ -162,13 +162,16 @@ const readingSections=[
 ];
 const audioFiles=["01-intro.m4a","02-thiruvuruvam.m4a","03-pranava.m4a","04-agathiyar.m4a","05-thoppukaranam.m4a","06-viratham.m4a"];
 const listenCards=document.getElementById("listenCards");
-readingSections.forEach((s,i)=>{
- const d=document.createElement("div");d.className="reading-card";
- d.innerHTML="<h3>"+(i+1)+". "+s[0]+"</h3><audio class='lesson-audio' controls preload='metadata' style='width:100%;margin:10px 0 14px'><source src='audio/"+audioFiles[i]+"' type='audio/mp4'></audio><div class='audio-speeds'><button type='button' data-speed='.75'>0.75×</button><button type='button' data-speed='1'>1×</button><button type='button' data-speed='1.25'>1.25×</button></div><p>"+s[1]+"</p><div class='read-check'><b>கேட்டுப் படிக்கும் பயிற்சி</b>ஒலிப்பதிவைக் கேட்கும் போது மேலுள்ள வாசகத்தைப் பின்தொடர்ந்து வாசிக்கவும்.</div>";
+readingSections.forEach(function(s,i){
+ var d=document.createElement("div");
+ d.className="reading-card";
+ var title=document.createElement("h3"); title.textContent=(i+1)+". "+s[0]; d.appendChild(title);
+ var audio=document.createElement("audio"); audio.controls=true; audio.preload="metadata"; audio.className="lesson-audio"; audio.style.width="100%";
+ var source=document.createElement("source"); source.src="audio/"+audioFiles[i]; source.type="audio/mp4"; audio.appendChild(source); d.appendChild(audio);
+ var speeds=document.createElement("div"); speeds.className="audio-speeds";
+ [0.75,1,1.25].forEach(function(rate){var b=document.createElement("button");b.type="button";b.textContent=rate+"×";if(rate===1)b.classList.add("active-speed");b.addEventListener("click",function(){audio.playbackRate=rate;Array.prototype.forEach.call(speeds.querySelectorAll("button"),function(x){x.classList.remove("active-speed")});b.classList.add("active-speed")});speeds.appendChild(b)}); d.appendChild(speeds);
+ var p=document.createElement("p");p.textContent=s[1];d.appendChild(p);
  listenCards.appendChild(d);
- const a=d.querySelector("audio");
- d.querySelectorAll("[data-speed]").forEach(btn=>btn.addEventListener("click",()=>{a.playbackRate=Number(btn.dataset.speed);d.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active-speed"));btn.classList.add("active-speed")}));
- d.querySelector('[data-speed="1"]').classList.add("active-speed");
 });
 const tabs={tabRead:"reading",tabListen:"listening",tabPlay:"home"};
 Object.entries(tabs).forEach(([b,s])=>document.getElementById(b).addEventListener("click",()=>{["reading","listening","home","activity"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById(s).classList.remove("hidden");document.querySelectorAll(".portal button").forEach(x=>x.classList.remove("active"));document.getElementById(b).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}));
