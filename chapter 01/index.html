@@ -170,6 +170,18 @@ readingSections.forEach((s,i)=>{
  d.querySelectorAll("[data-speed]").forEach(btn=>btn.addEventListener("click",()=>{a.playbackRate=Number(btn.dataset.speed);d.querySelectorAll("[data-speed]").forEach(b=>b.classList.remove("active-speed"));btn.classList.add("active-speed")}));
  d.querySelector('[data-speed="1"]').classList.add("active-speed");
 });
+
+// Main section navigation
+const sectionIds=["reading","listening","home","activity"];
+function showSection(sectionId,buttonId){
+ sectionIds.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add("hidden");});
+ const target=document.getElementById(sectionId);if(target)target.classList.remove("hidden");
+ document.querySelectorAll(".portal button").forEach(b=>b.classList.remove("active"));
+ const btn=document.getElementById(buttonId);if(btn)btn.classList.add("active");
+}
+document.getElementById("tabRead").addEventListener("click",()=>showSection("reading","tabRead"));
+document.getElementById("tabListen").addEventListener("click",()=>showSection("listening","tabListen"));
+document.getElementById("tabPlay").addEventListener("click",()=>showSection("home","tabPlay"));
 function updateProgress(){
  document.getElementById("bar").style.width=(completed.size/8*100)+"%";
  document.getElementById("progressText").textContent=completed.size+" / 8 பயிற்சிகள் நிறைவு";
