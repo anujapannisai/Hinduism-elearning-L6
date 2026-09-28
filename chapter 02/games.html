@@ -172,6 +172,11 @@ body{background:#fff!important;color:#294b47}
  .object .item-label{font-size:12px}
 }
 
+
+.item-bank-title{margin:24px 0 6px;font-size:22px;font-weight:850;color:#70441f}
+.item-bank-help{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:#fff4cf;color:#385f58;font-size:14px;line-height:1.5}
+.object.selected{outline:4px solid #49a58a;transform:translateY(-2px)}
+.object.used{opacity:.35;pointer-events:none}
 </style>
 </head>
 <body>
@@ -253,7 +258,18 @@ body{background:#fff!important;color:#294b47}
     <div class="scene-drop d4" data-empty="1" aria-label="காலியான இடம் 4"></div>
   </div>
 </div>
-<div class="object-bank" id="objects"></div><div class="feedback" id="f3">ஒரு பொருளைத் தட்டி, பின்னர் காலியான இடத்தைத் தட்டவும். கணினியில் இழுத்தும் விடலாம்.</div>
+<div class="item-bank-title">பொருட்களைத் தேர்ந்தெடுப்போம்</div>
+<div class="item-bank-help">ஒரு பொருளை இழுத்துச் செல்லுங்கள் — அல்லது பொருளைத் தட்டி, பின்னர் சுவாமி அறையின் காலியான இடத்தைத் தட்டுங்கள்.</div>
+<div class="object-bank" id="objects"><button type="button" class="object" data-id="lamp" data-ok="1" data-why="விளக்கேற்றுதல் நாளாந்த வழிபாட்டில் பாடத்தில் குறிப்பிடப்பட்டுள்ளது." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik00NSAxMDUgUTkwIDEzMCAxMzUgMTA1IFExMjUgMTQ1IDkwIDE0OCBRNTUgMTQ1IDQ1IDEwNSIgZmlsbD0iI2I4NzkyMSIgc3Ryb2tlPSIjNzA0NTE1IiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNOTAgMTA0IEM2OCA4MyA4MiA1OCA5MCA0MiBDOTggNTggMTEyIDgzIDkwIDEwNCIgZmlsbD0iI2YzYTUxZiIgc3Ryb2tlPSIjYzk2ZDE0IiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNODkgNDUgQzgyIDY0IDg1IDc3IDkxIDg2IEMxMDIgNjkgMTAwIDU3IDg5IDQ1IiBmaWxsPSIjZmZlN2EzIi8+PC9zdmc+" alt="விளக்கு"><span class="item-label">விளக்கு</span></button><button type="button" class="object" data-id="flowers" data-ok="1" data-why="பூக்களை வைத்து இறைவனை வழிபடுதல் பாடத்தில் குறிப்பிடப்பட்டுள்ளது." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkwIDkwKSI+PGcgZmlsbD0iI2Q3NGE3OSIgc3Ryb2tlPSIjOWYyZjU1IiBzdHJva2Utd2lkdGg9IjMiPjxlbGxpcHNlIHJ4PSIyMyIgcnk9IjQ4IiB0cmFuc2Zvcm09InJvdGF0ZSgwKSB0cmFuc2xhdGUoMCAtMjgpIi8+PGVsbGlwc2Ugcng9IjIzIiByeT0iNDgiIHRyYW5zZm9ybT0icm90YXRlKDYwKSB0cmFuc2xhdGUoMCAtMjgpIi8+PGVsbGlwc2Ugcng9IjIzIiByeT0iNDgiIHRyYW5zZm9ybT0icm90YXRlKDEyMCkgdHJhbnNsYXRlKDAgLTI4KSIvPjwvZz48Y2lyY2xlIHI9IjI1IiBmaWxsPSIjZjBiNzJmIi8+PC9nPjwvc3ZnPg==" alt="பூக்கள்"><span class="item-label">பூக்கள்</span></button><button type="button" class="object" data-id="incense" data-ok="1" data-why="தூப தீபங்கள் காட்டுதல் நாளாந்த வழிபாட்டின் ஒரு பகுதியாகும்." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjE0MCIgcng9IjUwIiByeT0iMTUiIGZpbGw9IiNhNTViMzYiLz48cGF0aCBkPSJNNzAgMTM1IEw4NCA1NSBNOTUgMTM1IEwxMDUgNDggTTExNiAxMzUgTDEyNCA2NSIgc3Ryb2tlPSIjNzA0MDJkIiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNODMgNDggQzYwIDI4IDkxIDE5IDc2IDUgTTEwNCA0MSBDMTMwIDI1IDEwMiAxMiAxMTkgMiBNMTI0IDU5IEMxNDYgNDQgMTI5IDMxIDE0MyAxOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjhiOGI4IiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==" alt="தூபம்"><span class="item-label">தூபம்</span></button><button type="button" class="object" data-id="thirumurai" data-ok="1" data-why="திருமுறைப் பாடல்களைப் பாடி வழிபட வேண்டும்." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zNSAzNSBRNzAgMjUgOTAgNDUgVjE0NSBRNjUgMTI4IDM1IDEzOCBaIiBmaWxsPSIjOGYyZjM5IiBzdHJva2U9IiM1ZTFmMjciIHN0cm9rZS13aWR0aD0iNSIvPjxwYXRoIGQ9Ik0xNDUgMzUgUTExMCAyNSA5MCA0NSBWMTQ1IFExMTUgMTI4IDE0NSAxMzggWiIgZmlsbD0iI2E4M2Q0OSIgc3Ryb2tlPSIjNWUxZjI3IiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI5MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmNmQ3N2IiIGZvbnQtZmFtaWx5PSJzZXJpZiI+4K6k4K6/4K6w4K+B4K6u4K+B4K6x4K+IPC90ZXh0Pjwvc3ZnPg==" alt="திருமுறை"><span class="item-label">திருமுறை</span></button><button type="button" class="object" data-id="coconut" data-ok="0" data-why="தேங்காய் வழிபாட்டில் பயன்படுத்தப்படலாம்; ஆனால் இந்தப் பாடத்தில் கூறப்பட்ட நாளாந்த வழிபாட்டிற்கான நான்கு இலக்குகளில் இது ஒன்றல்ல." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjEwNSIgcng9IjU1IiByeT0iNDgiIGZpbGw9IiM4YTU0MmYiIHN0cm9rZT0iIzVlMzUxZSIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHBhdGggZD0iTTgwIDU4IFE3NSAyOCA2MCAxOCBNOTIgNTggUTk1IDI3IDExMCAxNSBNMTAzIDYwIFExMjAgMzYgMTM3IDMxIiBzdHJva2U9IiM0ZTdjMzYiIHN0cm9rZS13aWR0aD0iOSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+" alt="தேங்காய்"><span class="item-label">தேங்காய்</span></button><button type="button" class="object" data-id="fruit" data-ok="0" data-why="பழங்கள் நைவேத்தியம் அல்லது விசேட வழிபாட்டில் இடம்பெறலாம்; இந்தச் செயலின் நான்கு இலக்குகளில் இது ஒன்றல்ல." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjEzNSIgcng9IjYyIiByeT0iMTUiIGZpbGw9IiNiOTg1NDIiLz48Y2lyY2xlIGN4PSI3MCIgY3k9IjEwMCIgcj0iMzAiIGZpbGw9IiNkODU0M2UiLz48Y2lyY2xlIGN4PSIxMTIiIGN5PSIxMDUiIHI9IjMwIiBmaWxsPSIjZTBhNzJkIi8+PHBhdGggZD0iTTkwIDExMiBRMTIwIDQ1IDE0NSA2NSBRMTIwIDg1IDkwIDExMiIgZmlsbD0iI2U3YzgzZSIvPjwvc3ZnPg==" alt="பழங்கள்"><span class="item-label">பழங்கள்</span></button><button type="button" class="object" data-id="kalasam" data-ok="0" data-why="கலசம் விசேட பூசை அல்லது விழாக்கால அமைப்பில் காணப்படலாம்; இங்கு நாளாந்த வழிபாட்டின் நான்கு அம்சங்களையே தேடுகிறோம்." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01NSA3MiBROTAgNTUgMTI1IDcyIEwxMTggMTM1IFE5MCAxNTUgNjIgMTM1IFoiIGZpbGw9IiNjODhiMmIiIHN0cm9rZT0iIzgwNTYxOSIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGVsbGlwc2UgY3g9IjkwIiBjeT0iNzAiIHJ4PSIzOCIgcnk9IjEyIiBmaWxsPSIjZTBhZDRjIi8+PHBhdGggZD0iTTkwIDY1IFE3MCAzNSA1MyAyNyBNOTAgNjUgUTkwIDI5IDkwIDE1IE05MCA2NSBRMTEwIDM1IDEyOCAyNyIgc3Ryb2tlPSIjNGY4MzNjIiBzdHJva2Utd2lkdGg9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==" alt="கலசம்"><span class="item-label">கலசம்</span></button><button type="button" class="object" data-id="rudraksha" data-ok="0" data-why="உருத்திராக்கம் இந்தப் பாடத்தில் வரும் சிவசின்னம். அதைத் தரிப்பது வேறு நித்திய கருமம்; இங்கு சுவாமி அறையில் வைக்க வேண்டிய நான்கு அம்சங்களில் இது ஒன்றல்ல." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZjNkMjUiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjcgOCIvPjxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjEyIiBmaWxsPSIjN2I0NDI4Ii8+PC9zdmc+" alt="உருத்திராக்கம்"><span class="item-label">உருத்திராக்கம்</span></button><button type="button" class="object" data-id="vibhuti" data-ok="0" data-why="விபூதி ஒரு முக்கிய சிவசின்னம். ஆனால் இந்தச் செயலில் வழிபாட்டிற்காகப் பாடத்தில் கூறப்பட்ட நான்கு அம்சங்களையே தேர்ந்தெடுக்க வேண்டும்." draggable="true">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjEzMiIgcng9IjUyIiByeT0iMTQiIGZpbGw9IiM5ZjcxM2UiLz48cGF0aCBkPSJNNDggMTI2IFE5MCA3NSAxMzIgMTI2IFoiIGZpbGw9IiNlOGU1ZGYiIHN0cm9rZT0iI2FhYTQ5YyIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHBhdGggZD0iTTYyIDExMiBROTAgOTUgMTE4IDExMiIgc3Ryb2tlPSIjYzdjMmJhIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" alt="விபூதி"><span class="item-label">விபூதி</span></button></div><div class="feedback" id="f3">ஒரு பொருளைத் தட்டி, பின்னர் காலியான இடத்தைத் தட்டவும். கணினியில் இழுத்தும் விடலாம்.</div>
 <div class="finish" id="shrineDone">சிறப்பு! நாளாந்த வழிபாட்டிற்குத் தேவையான நான்கு அம்சங்களையும் சரியாகத் தேர்ந்தெடுத்துள்ளீர்கள்.</div></section>
 <section class="card activity-screen" data-activity="4" id="a4"><h2>4. யாருக்காகப் பிரார்த்தனை செய்வோம்?</h2>
 <div class="instruction">ஒவ்வொரு சூழலையும் வாசித்து பொருத்தமான பதிலைத் தேர்ந்தெடுக்கவும்.</div><div id="prayer"></div></section>
@@ -321,28 +337,24 @@ drops.forEach(d=>{
 });
 
 const bank=document.getElementById('objects');
-objs.sort(()=>Math.random()-.5).forEach(o=>{
-  let b=document.createElement('button');
-  b.type='button'; b.className='object'; b.dataset.id=o.id; b.draggable=true;
-  b.innerHTML=`<img src="${o.src}" alt=""><span class="item-label">${itemLabels[o.id]||''}</span>`;
+[...bank.querySelectorAll('.object')].forEach(b=>{
   b.addEventListener('click',()=>{
     if(dragMoved){dragMoved=false;return}
-    [...bank.children].forEach(x=>x.classList.remove('selected'));
-    b.classList.add('selected'); selected=o.id;
-    document.getElementById('f3').textContent='இப்போது சுவாமி அறையில் உள்ள ஒரு காலியான இடத்தைத் தட்டுங்கள் அல்லது பொருளை இழுத்துச் செல்லுங்கள்.';
+    if(b.classList.contains('used'))return;
+    [...bank.querySelectorAll('.object')].forEach(x=>x.classList.remove('selected'));
+    b.classList.add('selected'); selected=b.dataset.id;
+    document.getElementById('f3').textContent='இப்போது சுவாமி அறையில் உள்ள ஒரு காலியான இடத்தைத் தட்டுங்கள்.';
   });
-  b.addEventListener('dragstart',e=>{selected=o.id;e.dataTransfer.setData('text/plain',o.id)});
+  b.addEventListener('dragstart',e=>{selected=b.dataset.id;e.dataTransfer.setData('text/plain',selected);});
   b.addEventListener('pointerdown',pointerStart);
-  bank.appendChild(b);
 });
-
 function pointerStart(e){
   if(e.pointerType==='mouse') return; // desktop uses native drag
   if(this.classList.contains('used')) return;
   dragging=this; selected=this.dataset.id; dragMoved=false;
   this.setPointerCapture?.(e.pointerId);
   ghost=document.createElement('div'); ghost.className='drag-ghost';
-  ghost.innerHTML=`<img src="${objs.find(x=>x.id===selected).src}" alt="">`;
+  ghost.innerHTML=`<img src="${this.querySelector('img').src}" alt="">`;
   document.body.appendChild(ghost); moveGhost(e.clientX,e.clientY);
   this.addEventListener('pointermove',pointerMove);
   this.addEventListener('pointerup',pointerEnd,{once:true});
@@ -371,11 +383,13 @@ function pointerEnd(e){
 }
 function place(d){
   if(!selected||d.dataset.empty!=='1')return;
-  let o=objs.find(x=>x.id===selected),fb=document.getElementById('f3');
+  let btn=bank.querySelector(`[data-id="${selected}"]`);
+  if(!btn)return;
+  let o={id:selected,src:btn.querySelector('img').src,ok:btn.dataset.ok==='1',why:btn.dataset.why};
+  let fb=document.getElementById('f3');
   if(o.ok){
     d.innerHTML=`<img src="${o.src}" alt="${itemLabels[o.id]||''}">`;
     d.dataset.empty='0'; d.classList.add('filled');
-    let btn=bank.querySelector(`[data-id="${o.id}"]`);
     btn.classList.add('used'); btn.classList.remove('selected');
     placed++;
     fb.className='feedback good'; fb.textContent=o.why;
