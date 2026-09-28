@@ -9,11 +9,30 @@
 .resource .missing{color:#8b9693;font-size:14px}.footer{border-top:1px solid #d9e9e5;margin-top:70px;padding-top:28px;text-align:center;color:#afd0c8;line-height:1.7}
 .progress{height:9px;background:#e8f1ee;border-radius:99px;overflow:hidden;margin:18px 0 30px}.bar{height:100%;width:0;background:#208b74}
 @media(max-width:650px){.wrap{padding:34px 16px 60px}.mode{grid-template-columns:1fr}.text{font-size:17px}.pass{padding:18px}}
+
+.pdf-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.resource .pdf-actions a{margin-top:0}
+.pdf-actions button{font:inherit;background:#fff;color:#208b74;border:2px solid #208b74;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
+.pdf-viewer{margin-top:18px;border:1px solid #d7e8e3;border-radius:16px;overflow:hidden;background:#fff}
+.pdf-viewer iframe{display:block;width:100%;height:72vh;min-height:520px;border:0}
+.pdf-fallback{display:none;padding:12px 14px;margin:0;color:#657572;font-size:14px}
+@media(max-width:650px){.pdf-actions{display:grid;grid-template-columns:1fr}.pdf-actions a,.pdf-actions button{text-align:center;width:100%}.pdf-viewer iframe{height:68vh;min-height:480px}}
+
 </style></head><body><main class="wrap">
 <div class="kicker">தரம் 6 • சைவ சமயம்</div><h1 class="title">அலகு 2 — நித்திய கருமங்கள்</h1><div class="subtitle">📖 படிப்போம் — தனியாக வாசிப்போம்</div>
 <a class="back" href="index.html">← அலகு 2 முகப்பு</a><div class="mode"><a href="listen.html" class="">🔊 கேட்டுப் படிப்போம்</a><a href="read.html" class="active">📖 படிப்போம்</a><a href="games.html" class="">🎮 விளையாடிக் கற்போம்</a></div>
-<div class="resource"><h2>📄 மேலதிக கற்றல் வளம்</h2><p>அலகு 2 supplementary resource PDF-ஐ இங்கே திறந்து பெரிதாக்கிப் பார்க்கலாம்.</p>
-<a id="pdfLink" href="resources/L6-H02.pdf" target="_blank">PDF-ஐத் திறக்கவும்</a><div class="missing">PDF file name: <strong>L6-H02.pdf</strong> — இந்தக் கோப்பை resources folder-இல் upload செய்தால் button வேலை செய்யும்.</div></div>
+<div class="resource">
+<h2>📄 மேலதிக கற்றல் வளம்</h2>
+<p>அலகு 2 துணைப் பக்கங்களை கீழே பார்க்கலாம். தேவையெனில் முழுத் திரையிலும் திறக்கலாம்.</p>
+<div class="pdf-actions">
+<a id="pdfLink" href="L6-H02.pdf" target="_blank" rel="noopener">PDF-ஐ முழுத் திரையில் திறக்கவும்</a>
+<button type="button" onclick="togglePdf()">இங்கே விரித்து / சுருக்கிப் பார்க்கவும்</button>
+</div>
+<div id="pdfViewer" class="pdf-viewer">
+<iframe src="L6-H02.pdf#view=FitH" title="அலகு 2 துணைப் பக்கங்கள்"></iframe>
+<p class="pdf-fallback">PDF இங்கே தெரியாவிட்டால் மேலுள்ள “PDF-ஐ முழுத் திரையில் திறக்கவும்” என்பதைத் தேர்ந்தெடுக்கவும்.</p>
+</div>
+</div>
 <section class="pass"><div style="color:#9bb8b1;font-weight:800">பகுதி 1 / 9</div><h2>நித்திய கருமங்கள் என்றால் என்ன?</h2>
 <div class="helper">இப்போது நீங்களாக வாசித்துப் பாருங்கள்.</div><div class="text">நாம் எமது வாழ்வில் நாளாந்தம் செய்யும் செயற்பாடுகள் நித்திய கருமங்கள் எனப்படும். அவற்றைச் செய்யும் போது இறை சிந்தனையுடன் செய்ய வேண்டும். நாம் செய்யக் கூடிய நித்திய கருமங்கள் பல உள்ளன. அவற்றுள் சிலவற்றைத் தெரிந்து கொள்ளுவோம்.
 
@@ -49,5 +68,10 @@
 <div class="check"><strong>💡 புரிந்துகொண்டோமா?</strong><p>இந்தப் பாடல்கள் எந்தப் பகுதியில் குறிப்பிடப்படுகின்றன?</p><div class="opts"><button onclick="answer(this,1)">உணவு உண்ணும் முறையுடன்</button><button onclick="answer(this,0)">காலை எழும் நேரத்துடன் மட்டும்</button><button onclick="answer(this,0)">சிவசின்னங்களுடன் மட்டும்</button></div><div class="feedback"></div></div></section>
 <footer class="footer">© 2026 Anuja — Supplementary design & e-learning activities.<br>Textbook content © respective copyright owner. Created independently as a supplementary educational resource. Not for commercial reproduction or redistribution.</footer>
 </main><script>
+function togglePdf(){
+  const v=document.getElementById('pdfViewer');
+  if(!v)return;
+  v.style.display=(v.style.display==='none')?'block':'none';
+}
 function answer(b,ok){let box=b.closest('.check'),f=box.querySelector('.feedback');if(ok){f.className='feedback good';f.textContent='சரி! நன்றாகப் புரிந்துகொண்டீர்கள்.'}else{f.className='feedback bad';f.textContent='இன்னும் ஒருமுறை வாசித்து மீண்டும் முயற்சி செய்க.'}}
 </script></body></html>
