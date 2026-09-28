@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>அலகு 2 — நித்திய கருமங்கள்</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Tamil","Nirmala UI",Arial,sans-serif;background:#f7fbf8;color:#173b38}
+header{text-align:center;padding:28px 18px 22px;background:linear-gradient(135deg,#006f72,#148c70 55%,#d82d76);color:white}
+h1{margin:6px 0;font-size:clamp(30px,5vw,46px)}main{max-width:1000px;margin:auto;padding:20px}
+.progress{height:9px;background:#ffffff55;border-radius:99px;max-width:520px;margin:15px auto 5px;overflow:hidden}.progress div{height:100%;width:0;background:white}
+.modules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.module{border:2px solid transparent;background:#fff;border-radius:20px;padding:18px;min-height:140px;box-shadow:0 5px 18px #173b3812;cursor:pointer;text-align:left;color:#173b38}
+.module:hover{border-color:#63b6a0}.module .icon{font-size:34px}.module b{display:block;margin:8px 0}.module small{color:#657c78}
+.hidden{display:none}.back{border:0;background:#e2f2eb;padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+.card{background:white;border-radius:24px;padding:24px;margin-top:15px;box-shadow:0 7px 24px #173b3812}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.answer{border:2px solid #dbece5;background:#f9fffc;border-radius:15px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;color:#173b38}
+.answer.correct{background:#dff6e8;border-color:#24955b;color:#145b36}
+.answer.wrong{background:#ffe8e8;border-color:#d64d5d;color:#912838}
+.feedback{display:none;margin-top:14px;padding:15px;border-radius:14px;font-weight:800;font-size:17px}
+.feedback.show{display:block}.feedback.good{background:#dff6e8;color:#145b36}.feedback.bad{background:#ffe8e8;color:#912838}
+.note{margin-top:18px;padding:14px;background:#fff7e8;border-radius:14px}
+.match-area{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:20px 0}
+.match-column{display:grid;gap:10px}
+.drag-item,.drop-zone{min-height:58px;border-radius:14px;padding:13px 15px;display:flex;align-items:center;font-weight:800}
+.drag-item{background:#fff8e9;border:2px solid #edcf8b;cursor:grab;touch-action:none;gap:12px}.drag-item img{width:96px;height:96px;object-fit:contain;border-radius:12px;background:#fffdf7;flex:0 0 96px}.drag-item .hand-label{line-height:1.25}
+.drag-item.selected{outline:4px solid #69b7a1;background:#eefbf6}
+.drag-item.matched{background:#dff6e8;border-color:#24955b;cursor:default}
+.drop-zone{background:#f7fbff;border:2px dashed #8db8ca;justify-content:space-between}
+.drop-zone.correct{background:#dff6e8;border-style:solid;border-color:#24955b}
+.match-help{background:#eef9f4;padding:12px 14px;border-radius:12px}
+.match-score{font-size:20px;font-weight:900;margin-top:12px}
+.sequence{display:grid;gap:10px;margin:18px 0}.sequence-card{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;background:#fffaf0;border:2px solid #edd6a3;border-radius:15px;padding:12px}.sequence-card .num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e8f5ef;font-weight:900}.sequence-controls{display:flex;gap:5px}.sequence-controls button{border:0;border-radius:9px;padding:8px 10px;background:#e6f1f7;cursor:pointer;font-weight:900}.sequence-card.correct-pos{border-color:#24955b;background:#effaf3}.check-sequence{border:0;border-radius:13px;padding:13px 18px;background:#147e69;color:white;font-weight:900;cursor:pointer}
+@media(max-width:700px){.match-area{grid-template-columns:1fr}.modules{grid-template-columns:1fr 1fr}.answers{grid-template-columns:1fr}}
+@media(max-width:430px){.modules{grid-template-columns:1fr}}
+
+.portal{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 24px}
+.portal button{border:2px solid #dbece5;background:white;border-radius:18px;padding:16px 10px;font-weight:900;color:#173b38;cursor:pointer;font-size:16px}
+.portal button.active{background:#e2f2eb;border-color:#148c70}
+.reading-grid{display:grid;gap:14px}.reading-card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 5px 18px #173b3812}
+.reading-card summary{font-size:19px;font-weight:900;cursor:pointer}.reading-card p{line-height:1.95;font-size:17px}
+.audio-placeholder{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#f1f7f5;border-radius:13px;padding:12px;margin:12px 0}
+.audio-placeholder button,.speed{border:0;border-radius:10px;padding:9px 12px;font-weight:800}.audio-placeholder button{background:#dfe7e4;color:#64736f}
+.read-check{margin-top:12px;padding:12px;background:#fff7e8;border-radius:13px}.read-check b{display:block;margin-bottom:7px}
+@media(max-width:700px){.portal{grid-template-columns:1fr}.reading-card p{font-size:16px}}
+
+/* Chapter 01 readability refresh */
+body{font-size:17px;line-height:1.7}
+main{max-width:1120px;padding:34px 24px 64px}
+.portal{gap:16px;margin:24px 0 34px}
+.portal button{padding:17px 18px;font-size:17px;border-radius:16px}
+#reading>h2,#listening>h2{font-size:30px;margin:0 0 10px}
+#reading>p,#listening>p{font-size:17px;color:#526c67;margin:0 0 26px}
+.reading-grid{gap:18px}
+.reading-card{padding:0;overflow:hidden;border:1px solid #dcebe6}
+.reading-card summary{padding:19px 22px;font-size:20px;background:#fff;list-style:none}
+.reading-card summary::-webkit-details-marker{display:none}
+.reading-card summary:before{content:"＋";display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;margin-right:10px;border-radius:50%;background:#e4f3ed;color:#147e69;font-weight:900}
+.reading-card[open] summary:before{content:"−"}
+.reading-card p{padding:0 24px;margin:18px 0;font-size:17px;line-height:2}
+.read-check{margin:0 24px 22px;padding:15px 17px;line-height:1.7}
+@media(max-width:700px){main{padding:22px 14px 48px}.portal{grid-template-columns:1fr;gap:10px}.reading-card summary{padding:16px;font-size:18px}.reading-card p{padding:0 17px;font-size:16px;line-height:1.9}.read-check{margin:0 17px 18px}}
+
+/* Spacious reading interface */
+#reading{max-width:980px;margin:0 auto;padding:18px 0 60px}
+#reading .reading-grid{display:flex;flex-direction:column;gap:22px;margin-top:28px}
+#reading .reading-card{width:100%;margin:0;padding:0;border:1px solid #d9e9e3;border-radius:20px;background:#fff;box-shadow:0 5px 18px rgba(23,59,56,.08);overflow:hidden}
+#reading .reading-card summary{display:block;padding:22px 24px;font-size:20px;line-height:1.5;cursor:pointer;background:#f8fcfa;list-style:none}
+#reading .reading-card summary::-webkit-details-marker{display:none}
+#reading .reading-card summary:before{content:"＋";display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;margin-right:10px;border-radius:50%;background:#e4f3ed;color:#147e69;font-weight:900}
+#reading .reading-card[open] summary:before{content:"−"}
+#reading .reading-card p{margin:0;padding:22px 26px 14px;font-size:18px;line-height:2.05}
+#reading .read-check{margin:8px 26px 24px;padding:16px 18px;line-height:1.8}
+#reading>h2{font-size:32px;line-height:1.4;margin:12px 0}
+#reading>p{font-size:18px;line-height:1.8;margin-bottom:30px}
+@media(max-width:700px){#reading{padding:8px 2px 45px}#reading .reading-grid{gap:16px}#reading .reading-card summary{padding:18px;font-size:18px}#reading .reading-card p{padding:18px;font-size:16px;line-height:1.95}#reading .read-check{margin:4px 18px 18px}}
+.audio-speeds{display:flex;gap:9px;margin:0 0 16px}.audio-speeds button{border:1px solid #b9d9ce;background:#f6fbf9;border-radius:999px;padding:7px 13px;cursor:pointer;font-weight:800;color:#285a51}.audio-speeds button.active-speed{background:#dff3eb;border-color:#24955b;color:#145b36}.lesson-audio{display:block}
+.follow-text{font-size:20px!important;line-height:2.15!important;padding:18px!important;background:#fbfdfc;border:1px solid #e0eee9;border-radius:14px}
+.follow-text .word{padding:2px 3px;border-radius:5px;transition:background .12s ease,box-shadow .12s ease}
+.follow-text .word.active-word{background:#ffe89a;box-shadow:0 0 0 2px #ffe89a}
+.follow-note{font-size:13px;color:#657c78;margin-top:6px}
+.supplement-box{background:#fff7e8;border:1px solid #f0d8a8;border-radius:20px;padding:22px;margin:0 0 28px}.supplement-box h2{margin:0 0 6px}.pdf-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.pdf-actions button,.pdf-actions a{border:0;border-radius:12px;padding:11px 15px;font-weight:900;text-decoration:none;cursor:pointer}.pdf-actions button{background:#147e69;color:#fff}.pdf-actions a{background:#e6f3ef;color:#175c50}.pdf-viewer{margin-top:18px}.pdf-viewer iframe{width:100%;height:75vh;min-height:600px;border:1px solid #d9e9e3;border-radius:14px;background:white}@media(max-width:700px){.pdf-viewer iframe{height:70vh;min-height:480px}}
+
+:root{--ink:#31251f;--cream:#fffaf0;--gold:#c79338;--green:#3f7b57;--rose:#a44d68;--line:#e6d5b8}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Tamil","Arial Unicode MS",sans-serif;background:#f6efe2;color:var(--ink)}
+header{background:linear-gradient(135deg,#fff8e9,#f3dfb9);padding:20px 16px;border-bottom:1px solid #dec89f;position:sticky;top:0;z-index:10}
+.wrap{max-width:980px;margin:auto}.top{display:flex;gap:12px;align-items:center;justify-content:space-between}.back{color:#714c1f;text-decoration:none;font-weight:700}
+h1{font-size:clamp(24px,5vw,38px);margin:8px 0}.sub{margin:0;line-height:1.6}
+.progress{height:10px;background:#eadfc9;border-radius:99px;overflow:hidden;margin-top:14px}.bar{height:100%;width:0;background:#4f8661;transition:.3s}
+nav{display:flex;gap:8px;overflow:auto;padding:12px 0}.navbtn{white-space:nowrap;border:1px solid #d8c29a;background:white;border-radius:99px;padding:9px 13px}
+main{padding:18px 14px 60px}.card{background:#fffdf8;border:1px solid var(--line);border-radius:22px;padding:18px;margin:0 auto 18px;box-shadow:0 6px 18px #7b5c3320}
+.card h2{margin-top:0;color:#6b431c}.instruction{background:#fff4cf;border-left:5px solid #d6a53f;padding:12px;border-radius:12px;line-height:1.65}
+.options,.sequence,.object-bank{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:14px}
+button,.choice,.seq,.object{font:inherit;touch-action:manipulation}.choice,.seq,.object{border:2px solid #e0ceb0;background:#fff;border-radius:15px;padding:13px;min-height:58px;cursor:pointer}
+.choice.correct{border-color:#5c946b;background:#edf8ef}.choice.wrong{border-color:#b65b5b;background:#fff0f0}
+.feedback{min-height:52px;margin-top:12px;padding:12px;border-radius:12px;background:#f5f0e6;line-height:1.6}.feedback.good{background:#e8f5ea;color:#245b35}.feedback.bad{background:#fff0e8;color:#8a3d2e}
+.seq.selected{outline:3px solid #d2a340}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.match-col{display:grid;gap:9px}.match{padding:13px;border:2px solid #e0ceb0;border-radius:14px;background:#fff}.match.selected{outline:3px solid #d2a340}.match.done{background:#e8f5ea;border-color:#5c946b}
+.shrine-wrap{position:relative;max-width:760px;margin:18px auto;background:#6d3c22;border:12px solid #8d5933;border-radius:24px;padding:18px;box-shadow:inset 0 0 0 4px #d6a95a}
+.shrine-top{text-align:center;color:#ffe4a6;font-weight:800;font-size:22px;padding:8px}.deities{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:12px;align-items:end;background:#f4dca7;border-radius:14px;padding:14px}
+.deity{background:#fff4d8;border:6px ridge #c08c3e;border-radius:10px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;color:#783d28;padding:8px}
+.lingam{width:72px;height:92px;border-radius:38px 38px 18px 18px;background:#3f3b39;position:relative;margin:auto}.lingam:after{content:"";position:absolute;left:-25px;right:-25px;bottom:-10px;height:24px;background:#292625;border-radius:50%}
+.bell{text-align:center;font-size:34px;margin:6px}.shelf{height:14px;background:#d09a50;border-radius:8px;margin:8px 0 14px}
+.drop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.drop{aspect-ratio:1/1;border:3px dashed #d7bd82;background:#fff8e9aa;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:6px}.drop img{max-width:90%;max-height:90%}
+.object{padding:8px;background:#fff9ee;display:flex;align-items:center;justify-content:center;min-height:112px}.object img{width:82px;height:82px}.object.used{opacity:.35;pointer-events:none}.object.selected{outline:4px solid #d2a340}
+.scenario{border:1px solid #e4d4ba;border-radius:16px;padding:14px;margin:12px 0;background:#fff}.scenario p{line-height:1.7}
+.poem{white-space:pre-line;background:#fff7e2;border-radius:16px;padding:16px;line-height:1.9;border:1px solid #ead5aa}
+.audio{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.audio button{border:0;border-radius:99px;background:#714c1f;color:#fff;padding:11px 16px}.highlight span.active{background:#ffe08a;border-radius:4px}
+.finish{display:none;background:#e7f4e9;border:2px solid #65a071;padding:16px;border-radius:16px;text-align:center;font-weight:800;margin-top:16px}
+@media(max-width:600px){.match-grid{grid-template-columns:1fr}.deity{min-height:112px;font-size:13px}.shrine-wrap{padding:10px;border-width:8px}.drop-grid{grid-template-columns:repeat(2,1fr)}.object-bank{grid-template-columns:repeat(3,1fr)}.object{min-height:92px}.object img{width:65px;height:65px}}
+
+/* Chapter 2 landing page — intentionally mirrors Chapter 1's sparse interface */
+body{background:#fff!important;color:#294b47}
+.ch2-shell{max-width:980px;margin:0 auto;padding:54px 26px 80px}
+.chapter-kicker{text-align:center;color:#87928f;font-weight:700;letter-spacing:.02em;margin-bottom:18px}
+.chapter-title{text-align:center;margin:0;color:#435b58;font-size:clamp(32px,5vw,52px);font-weight:800}
+.chapter-tag{text-align:center;color:#a1aaa7;margin:12px 0 26px;font-size:20px}
+.chapter-count{text-align:center;color:#a5adab;margin-bottom:46px}
+.home-link{display:inline-block;color:#218a74;text-decoration:none;font-weight:800;font-size:18px;margin:0 0 30px}
+.mode-stack{display:grid;gap:14px;margin-bottom:42px}
+.mode-btn{width:100%;min-height:64px;border:2px solid #d9ebe6;border-radius:18px;background:#fff;color:#355b55;font:inherit;font-weight:800;font-size:20px;box-shadow:0 3px 12px #2f5f5510}
+.mode-btn.active{border-color:#1f9a7b}
+.activity-heading{font-size:27px;margin:0 0 22px;color:#315a55}
+.activity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.activity-tile{min-height:155px;text-align:left;border:0;border-radius:22px;background:#fff;padding:24px;box-shadow:0 8px 26px rgba(44,76,70,.09);color:#294b47;font:inherit;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.activity-tile .tile-icon{font-size:32px;margin-bottom:12px}
+.activity-tile strong{font-size:17px;margin-bottom:8px}
+.activity-tile small{color:#b0c9c3;font-size:14px}
+.chapter-footer{border-top:1px solid #d8e8e4;margin-top:110px;padding-top:35px;text-align:center;color:#b5d3cc;line-height:1.8}
+#activityHost{display:none}
+.activity-top{max-width:980px;margin:0 auto;padding:22px 16px 0}
+.activity-back{border:0;background:none;color:#218a74;font:inherit;font-weight:800;padding:10px 0;cursor:pointer}
+.activity-screen{display:none!important;max-width:980px;margin:18px auto!important}
+.activity-screen.current{display:block!important}
+#activityHost main{padding:0 14px 60px}
+#activityHost header{display:none!important}
+@media(max-width:640px){
+ .ch2-shell{padding:38px 18px 60px}
+ .activity-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+ .activity-tile{min-height:140px;padding:18px}
+ .activity-tile strong{font-size:15px}
+ .chapter-footer{margin-top:70px}
+}
+</style>
+</head>
+<body>
+<div id="landing" class="ch2-shell">
+  <div class="chapter-kicker">தரம் 6 • சைவ சமயம்</div>
+  <h1 class="chapter-title">அலகு 2 — நித்திய கருமங்கள்</h1>
+  <div class="chapter-tag">விளையாடிக் கற்போம் 🎮</div>
+  <div class="chapter-count" id="landingCount">0 / 7 பயிற்சிகள் நிறைவு</div>
+
+  <a class="home-link" href="../index.html">← தரம் 6 முகப்பு</a>
+
+  <div class="mode-stack">
+    <button class="mode-btn" onclick="openActivity(7)">📖 படிப்போம்</button>
+    <button class="mode-btn" onclick="openActivity(7)">🔊 கேட்டுப் படிப்போம்</button>
+    <button class="mode-btn active" onclick="document.getElementById('activityGrid').scrollIntoView({behavior:'smooth'})">🎮 விளையாடிக் கற்போம்</button>
+  </div>
+
+  <h2 class="activity-heading">பயிற்சியைத் தேர்ந்தெடுக்கவும்</h2>
+  <div class="activity-grid" id="activityGrid"><button class="activity-tile" onclick="openActivity(1)">
+      <span class="tile-icon">🌅</span>
+      <strong>காலை நித்திய கருமங்கள்</strong>
+      <small>சரியான வரிசை</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(2)">
+      <span class="tile-icon">🧩</span>
+      <strong>சிவசின்னங்கள்</strong>
+      <small>பொருத்துவோம்</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(3)">
+      <span class="tile-icon">🛕</span>
+      <strong>சுவாமி அறை</strong>
+      <small>நாளாந்த வழிபாடு</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(4)">
+      <span class="tile-icon">🙏</span>
+      <strong>பிரார்த்தனை</strong>
+      <small>யாருக்காக வேண்டுவோம்?</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(5)">
+      <span class="tile-icon">🍚</span>
+      <strong>உணவு உண்ணும் போது</strong>
+      <small>நல்ல பழக்கங்களைத் தேர்வோம்</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(6)">
+      <span class="tile-icon">🏠</span>
+      <strong>வாழ்க்கையில் பயன்படுத்துவோம்</strong>
+      <small>சூழ்நிலையைச் சிந்திப்போம்</small>
+    </button>
+<button class="activity-tile" onclick="openActivity(7)">
+      <span class="tile-icon">📖</span>
+      <strong>திருமுறை</strong>
+      <small>படித்து புரிந்துகொள்வோம்</small>
+    </button></div>
+
+  <footer class="chapter-footer">
+    © 2026 Anuja — Supplementary design &amp; e-learning activities.<br>
+    Textbook content © respective copyright owner. Created independently as a supplementary educational resource.
+    Not for commercial reproduction or redistribution.
+  </footer>
+</div>
+
+<div id="activityHost">
+  <div class="activity-top"><button class="activity-back" onclick="closeActivity()">← அலகு 2 பயிற்சிகள்</button></div>
+  <main><section class="card activity-screen" data-activity="1" id="a1"><h2>1. காலை நித்திய கருமங்கள் — சரியான வரிசை</h2>
+<div class="instruction">கீழேயுள்ள செயல்களை அவை நடைபெறும் சரியான வரிசையில் ஒன்றன் பின் ஒன்றாகத் தேர்ந்தெடுக்கவும்.</div>
+<div class="sequence" id="sequence"></div><div class="feedback" id="f1">முதல் செயலைத் தேர்ந்தெடுக்கவும்.</div><button onclick="resetSeq()">மீண்டும் முயற்சி</button></section>
+<section class="card activity-screen" data-activity="2" id="a2"><h2>2. சிவசின்னங்கள் — பொருத்துவோம்</h2>
+<div class="instruction">சொல்லையும் அதன் சரியான விளக்கத்தையும் பொருத்துங்கள்.</div>
+<div class="match-grid"><div class="match-col" id="mleft"></div><div class="match-col" id="mright"></div></div><div class="feedback" id="f2">இடப்பக்கத்தில் ஒரு சொல்லைத் தேர்ந்தெடுத்து, பின்னர் அதன் விளக்கத்தைத் தேர்ந்தெடுக்கவும்.</div></section>
+<section class="card activity-screen" data-activity="3" id="a3"><h2>3. சுவாமி அறையைத் தயார் செய்வோம்</h2>
+<div class="instruction"><strong>நாளாந்த வழிபாடு:</strong> சுவாமி அறையில் மணி போன்ற சில பொருட்கள் ஏற்கனவே இருக்கலாம். பாடத்தில் கூறப்பட்ட நாளாந்த வழிபாட்டிற்கான நான்கு அம்சங்களைத் தேர்ந்தெடுத்து, காலியான இடங்களில் வையுங்கள். சில பொருட்கள் விசேட பூசை அல்லது விழாக்கால வழிபாட்டில் பயன்படுத்தப்படலாம்.</div>
+<div class="shrine-wrap">
+<div class="shrine-top">சுவாமி அறை</div><div class="bell">🔔</div>
+<div class="deities"><div class="deity">பிள்ளையார்<br><span style="font-size:38px">ॐ</span></div><div class="deity"><div><div class="lingam"></div><br>சிவலிங்கம்</div></div><div class="deity">முருகப் பெருமான்<br><span style="font-size:38px">வேல்</span></div></div>
+<div class="shelf"></div><div class="drop-grid" id="drops"></div></div>
+<div class="object-bank" id="objects"></div><div class="feedback" id="f3">ஒரு பொருளைத் தட்டி, பின்னர் காலியான இடத்தைத் தட்டவும். கணினியில் இழுத்தும் விடலாம்.</div>
+<div class="finish" id="shrineDone">சிறப்பு! நாளாந்த வழிபாட்டிற்குத் தேவையான நான்கு அம்சங்களையும் சரியாகத் தேர்ந்தெடுத்துள்ளீர்கள்.</div></section>
+<section class="card activity-screen" data-activity="4" id="a4"><h2>4. யாருக்காகப் பிரார்த்தனை செய்வோம்?</h2>
+<div class="instruction">ஒவ்வொரு சூழலையும் வாசித்து பொருத்தமான பதிலைத் தேர்ந்தெடுக்கவும்.</div><div id="prayer"></div></section>
+<section class="card activity-screen" data-activity="5" id="a5"><h2>5. உணவு உண்ணும் போது — நல்ல பழக்கமா?</h2>
+<div class="instruction">ஒவ்வொரு பழக்கமும் பாடத்தில் கூறப்பட்ட நல்ல பழக்கமா என்பதைத் தீர்மானிக்கவும்.</div><div id="food"></div></section>
+<section class="card activity-screen" data-activity="6" id="a6"><h2>6. வாழ்க்கையில் பயன்படுத்துவோம்</h2>
+<div class="instruction">பாடத்தில் கற்ற கருத்தை நாளாந்த வாழ்க்கையில் பயன்படுத்திப் பாருங்கள்.</div><div id="life"></div></section>
+<section class="card activity-screen" data-activity="7" id="a7"><h2>7. திருமுறை — படிப்போம், புரிந்துகொள்வோம்</h2>
+<div class="instruction">பாடல்களை கவனமாக வாசியுங்கள். ஆசிரியர் வழங்கும் ஒலிப்பதிவு பின்னர் இங்கே இணைக்கப்படலாம். அதன் பின் பொருள் சார்ந்த கேள்விகளுக்குப் பதிலளிக்கவும்.</div>
+<h3>அன்னம் பாலிக்கும் — அப்பர் தேவாரம்</h3><div class="poem highlight" id="poem1">அன்னம் பாலிக்கும் தில்லைச் சிற்றம்பலம்
+பொன்னம் பாலிக்கும்; மேலும், இப் பூமிசை
+என் அன்பு ஆலிக்கும் ஆறு கண்டு, இன்பு உற
+இன்னம் பாலிக்குமோ, இப் பிறவியே?</div>
+<div class="audio"><button type="button" onclick="demoRead('poem1')">▶ வாசிப்பைப் பின்தொடர்</button><span>ஒலிப்பதிவு சேர்க்கத் தயாராக உள்ளது.</span></div>
+<h3>சேக்கிழார் — சம்பந்தர் புராணம்</h3><div class="poem highlight" id="poem2">மண்ணி னிற்பிறந்த தார்பெறும் பயன்மதி சூடும்
+அண்ண லாரடி யார்தமை யமுதுசெய் வித்தல்
+கண்ணி னாலவர் நல்விழாப் பொலிவுகண் டார்தல்
+உண்மை யாமெனி லுலகர்முன் வருகென வுரைப்பார்</div>
+<div class="audio"><button type="button" onclick="demoRead('poem2')">▶ வாசிப்பைப் பின்தொடர்</button><span>ஒலிப்பதிவு சேர்க்கத் தயாராக உள்ளது.</span></div>
+<div id="poemQs"></div></section></main>
+</div>
+
+<script>
+
+const done=new Set(); function complete(n){done.add(n);document.getElementById('pct').textContent=`${done.size} / 7 முடிந்தது`;document.getElementById('bar').style.width=(done.size/7*100)+'%';}
+const nav=document.getElementById('nav');for(let i=1;i<=7;i++){let b=document.createElement('button');b.className='navbtn';b.textContent=i;b.onclick=()=>document.getElementById('a'+i).scrollIntoView({behavior:'smooth'});nav.appendChild(b)}
+
+const seqCorrect=["இறைவனை நினைத்துக் கொண்டு நித்திரை விட்டெழுதல்","காலைக் கடன்களை முடித்தல்","நீராடுதல்","தூய ஆடை அணிதல்","சிவசின்னங்களைத் தரித்தல்","இறைவனை வழிபடுதல்"];
+let seqPick=[]; function buildSeq(){const box=document.getElementById('sequence');box.innerHTML='';[...seqCorrect].sort(()=>Math.random()-.5).forEach(x=>{let b=document.createElement('button');b.className='seq';b.textContent=x;b.onclick=()=>{if(seqPick.includes(x))return;let expected=seqCorrect[seqPick.length];if(x===expected){seqPick.push(x);b.classList.add('selected');document.getElementById('f1').textContent=`சரி — ${seqPick.length} / ${seqCorrect.length}`;if(seqPick.length===seqCorrect.length){document.getElementById('f1').className='feedback good';document.getElementById('f1').textContent='சிறப்பு! காலை நித்திய கருமங்களைச் சரியான வரிசையில் அமைத்துள்ளீர்கள்.';complete(1)}}else{document.getElementById('f1').className='feedback bad';document.getElementById('f1').textContent='இந்தச் செயல் இன்னும் வரவில்லை. பாடத்தின் காலை ஒழுங்கை நினைவுகூர்ந்து மீண்டும் முயற்சி செய்க.'}};box.appendChild(b)})}
+function resetSeq(){seqPick=[];document.getElementById('f1').className='feedback';document.getElementById('f1').textContent='முதல் செயலைத் தேர்ந்தெடுக்கவும்.';buildSeq()} buildSeq();
+
+const pairs={"விபூதி":"சிவசின்னமாகத் தரிக்கப்படும் திருநீறு","உத்தூளனம்":"விபூதியைப் பரவிப் பூசுதல்","திரிபுண்டரம்":"விபூதியை மூன்று குறியாகத் தரித்தல்","உருத்திராக்கம்":"சிவசின்னமாக உடலில் தரிக்கப்படும் புனித மணி"};
+let ml=null, matched=0; const L=document.getElementById('mleft'),R=document.getElementById('mright');
+Object.keys(pairs).sort(()=>Math.random()-.5).forEach(k=>{let b=document.createElement('button');b.className='match';b.textContent=k;b.onclick=()=>{if(b.classList.contains('done'))return;[...L.children].forEach(x=>x.classList.remove('selected'));b.classList.add('selected');ml={k,b}};L.appendChild(b)});
+Object.entries(pairs).sort(()=>Math.random()-.5).forEach(([k,v])=>{let b=document.createElement('button');b.className='match';b.textContent=v;b.onclick=()=>{if(!ml||b.classList.contains('done'))return;if(ml.k===k){ml.b.className='match done';b.className='match done';matched++;document.getElementById('f2').className='feedback good';document.getElementById('f2').textContent='சரியான பொருத்தம்!';ml=null;if(matched===4){document.getElementById('f2').textContent='அருமை! சிவசின்னங்களையும் அவற்றின் பொருளையும் சரியாகப் பொருத்தியுள்ளீர்கள்.';complete(2)}}else{document.getElementById('f2').className='feedback bad';document.getElementById('f2').textContent='அந்த விளக்கம் இந்தச் சொல்லுக்குப் பொருந்தவில்லை. மீண்டும் முயற்சி செய்க.'}};R.appendChild(b)});
+
+const objs=[
+{id:'lamp',src:'assets/lamp.svg',ok:1,why:'விளக்கேற்றுதல் நாளாந்த வழிபாட்டில் பாடத்தில் குறிப்பிடப்பட்டுள்ளது.'},
+{id:'flowers',src:'assets/flowers.svg',ok:1,why:'பூக்களை வைத்து இறைவனை வழிபடுதல் பாடத்தில் குறிப்பிடப்பட்டுள்ளது.'},
+{id:'incense',src:'assets/incense.svg',ok:1,why:'தூப தீபங்கள் காட்டுதல் நாளாந்த வழிபாட்டின் ஒரு பகுதியாகும்.'},
+{id:'thirumurai',src:'assets/thirumurai.svg',ok:1,why:'திருமுறைப் பாடல்களைப் பாடி வழிபட வேண்டும்.'},
+{id:'coconut',src:'assets/coconut.svg',ok:0,why:'தேங்காய் வழிபாட்டில் பயன்படுத்தப்படலாம்; ஆனால் இந்தப் பாடத்தில் கூறப்பட்ட நாளாந்த வழிபாட்டிற்கான நான்கு இலக்குகளில் இது ஒன்றல்ல.'},
+{id:'fruit',src:'assets/fruit.svg',ok:0,why:'பழங்கள் நைவேத்தியம் அல்லது விசேட வழிபாட்டில் இடம்பெறலாம்; இந்தச் செயலின் நான்கு இலக்குகளில் இது ஒன்றல்ல.'},
+{id:'kalasam',src:'assets/kalasam.svg',ok:0,why:'கலசம் விசேட பூசை அல்லது விழாக்கால அமைப்பில் காணப்படலாம்; இங்கு நாளாந்த வழிபாட்டின் நான்கு அம்சங்களையே தேடுகிறோம்.'},
+{id:'rudraksha',src:'assets/rudraksha.svg',ok:0,why:'உருத்திராக்கம் இந்தப் பாடத்தில் வரும் சிவசின்னம். அதைத் தரிப்பது வேறு நித்திய கருமம்; இங்கு சுவாமி அறையில் வைக்க வேண்டிய நான்கு அம்சங்களில் இது ஒன்றல்ல.'},
+{id:'vibhuti',src:'assets/vibhuti.svg',ok:0,why:'விபூதி ஒரு முக்கிய சிவசின்னம். ஆனால் இந்தச் செயலில் வழிபாட்டிற்காகப் பாடத்தில் கூறப்பட்ட நான்கு அம்சங்களையே தேர்ந்தெடுக்க வேண்டும்.'}
+]; let selected=null, placed=0;
+const drops=document.getElementById('drops');for(let i=0;i<4;i++){let d=document.createElement('div');d.className='drop';d.dataset.empty='1';d.onclick=()=>place(d);d.ondragover=e=>e.preventDefault();d.ondrop=e=>{e.preventDefault();selected=e.dataTransfer.getData('text');place(d)};drops.appendChild(d)}
+const bank=document.getElementById('objects');objs.sort(()=>Math.random()-.5).forEach(o=>{let b=document.createElement('button');b.className='object';b.dataset.id=o.id;b.draggable=true;b.innerHTML=`<img src="${o.src}" alt="">`;b.onclick=()=>{[...bank.children].forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selected=o.id};b.ondragstart=e=>e.dataTransfer.setData('text',o.id);bank.appendChild(b)});
+function place(d){if(!selected||d.dataset.empty!=='1')return;let o=objs.find(x=>x.id===selected),fb=document.getElementById('f3');if(o.ok){d.innerHTML=`<img src="${o.src}" alt="">`;d.dataset.empty='0';let btn=bank.querySelector(`[data-id="${o.id}"]`);btn.classList.add('used');btn.classList.remove('selected');placed++;fb.className='feedback good';fb.textContent=o.why;if(placed===4){document.getElementById('shrineDone').style.display='block';complete(3)}}else{fb.className='feedback bad';fb.textContent=o.why+' வேறொரு பொருளைத் தேர்ந்தெடுக்கவும்.';bank.querySelector(`[data-id="${o.id}"]`).classList.remove('selected')}selected=null}
+
+function makeScenario(container,q,choices,correct,good,bad,onDone){let s=document.createElement('div');s.className='scenario';s.innerHTML=`<p><strong>${q}</strong></p>`;let op=document.createElement('div');op.className='options';choices.forEach((c,i)=>{let b=document.createElement('button');b.className='choice';b.textContent=c;b.onclick=()=>{if(s.dataset.done)return;if(i===correct){b.classList.add('correct');let f=s.querySelector('.feedback');f.className='feedback good';f.textContent=good;s.dataset.done='1';onDone()}else{b.classList.add('wrong');let f=s.querySelector('.feedback');f.className='feedback bad';f.textContent=bad}};op.appendChild(b)});s.appendChild(op);let f=document.createElement('div');f.className='feedback';f.textContent='பதிலைத் தேர்ந்தெடுக்கவும்.';s.appendChild(f);container.appendChild(s)}
+let pc=0;const prayer=document.getElementById('prayer');
+makeScenario(prayer,'உங்கள் நண்பர் உடல்நலம் இல்லாமல் இருக்கிறார். வழிபாட்டின் போது என்ன செய்யலாம்?',['அவருக்காக நலம் வேண்டிப் பிரார்த்திக்கலாம்','எனக்காக மட்டும் வேண்டலாம்','அவரைப் பற்றி நினைக்க வேண்டாம்'],0,'சரி! நமக்காக மட்டுமன்றி பிறரின் நலத்திற்காகவும் பிரார்த்திக்க வேண்டும்.','பாடத்தில் குடும்பத்தவர், அயலவர், நண்பர் அனைவரும் நலமாக வாழப் பிரார்த்திக்க வேண்டும் என்று கூறப்பட்டுள்ளது.',()=>{if(++pc===2)complete(4)});
+makeScenario(prayer,'காலை வழிபாடு முடிந்தது. அடுத்ததாக பாடம் எந்தப் பழக்கத்தை வலியுறுத்துகிறது?',['பெற்றோரின் கால்களில் வீழ்ந்து வணங்குதல்','உடனே தொலைபேசியைப் பார்ப்பது','உணவை வீணாக்குதல்'],0,'சரி! பெற்றோர் கண்கண்ட தெய்வங்கள்; அவர்களது ஆசீர்வாதம் முக்கியமானது.','காலையும் மாலையும் வழிபட்ட பின் பெற்றோரை வணங்கும் பழக்கத்தைப் பாடம் கூறுகிறது.',()=>{if(++pc===2)complete(4)});
+
+let fc=0;const food=document.getElementById('food');
+[['உணவு உண்ணத் தொடங்கும் முன் இறைவனை நினைந்து வணங்குதல்',1],['உணவை வீணாக்குதல்',0],['பசு, காகம், கோழி முதலான பிராணிகளுக்கு உணவில் ஒரு பகுதி இடுதல்',1],['உண்ணும் போது வீண் வார்த்தைகளைப் பேசுதல்',0]].forEach(([q,yes])=>makeScenario(food,q,['நல்ல பழக்கம்','கடைப்பிடிக்கக் கூடாது'],yes?0:1,yes?'சரி! இது பாடத்தில் கூறப்பட்ட நல்ல நித்திய பழக்கம்.':'சரி! இதைத் தவிர்க்க வேண்டும்.',yes?'மீண்டும் சிந்தியுங்கள் — இது பாடத்தில் நல்ல பழக்கமாகக் கூறப்பட்டுள்ளது.':'மீண்டும் சிந்தியுங்கள் — இதைத் தவிர்க்க வேண்டும்.',()=>{if(++fc===4)complete(5)}));
+
+let lc=0;const life=document.getElementById('life');
+makeScenario(life,'மீனா வீட்டின் சுவாமி அறையை மட்டும் சுத்தமாக வைத்திருக்கிறாள். மற்ற இடங்களைப் பற்றி கவலைப்படவில்லை. பாடத்தின் அடிப்படையில் சிறந்த அறிவுரை எது?',['வீட்டின் எல்லா இடங்களையும் புனிதமாக வைத்திருக்க உதவ வேண்டும்','சுவாமி அறை மட்டும் போதும்','சுத்தம் நித்திய கருமம் அல்ல'],0,'சரி! வழிபாட்டு இடம் மட்டுமன்றி வீட்டின் எல்லா இடங்களிலும் புனிதம் பேண வேண்டும்.','புனிதம் பேணுதல் வீட்டின் எல்லா இடங்களுக்கும் பொருந்துகிறது.',()=>{if(++lc===2)complete(6)});
+makeScenario(life,'ஒரு விசேட நாளில் குடும்பம் ஏழைகள் மற்றும் ஆதரவு தேவைப்படுவோருக்கு உணவளிக்கிறது. இது எந்தக் கருத்தை எடுத்துக்காட்டுகிறது?',['தருமச் செயல் மற்றும் சமூகக் கடமை','உணவை வீணாக்குதல்','காலை கடன்'],0,'சரி! சிறு வயதிலிருந்தே தருமச் செயல்களில் ஈடுபட வேண்டும் என்று பாடம் கூறுகிறது.','பாடத்தின் தருமச் செயல்கள் பற்றிய பகுதியை நினைவுகூருங்கள்.',()=>{if(++lc===2)complete(6)});
+
+let qc=0;const pq=document.getElementById('poemQs');
+makeScenario(pq,'“அன்னம் பாலிக்கும்” என்று தொடங்கும் பாடல் எதனுடன் தொடர்புடையதாக இந்தப் பாடத்தில் அறிமுகப்படுத்தப்படுகிறது?',['உணவு உண்ணத் தொடங்கும் முன் பாடக்கூடிய திருமுறைப் பாடல்','காலை எழும் நேரம்','சிவசின்னம் தரித்தல்'],0,'சரி! உணவுக்கு முன் இறைவனை நினைவுகூரும் சூழலில் இந்தத் தேவாரம் குறிப்பிடப்பட்டுள்ளது.','பாடத்தின் உணவு உண்ணும் முறை பற்றிய பகுதியை மீண்டும் பாருங்கள்.',()=>{if(++qc===2)complete(7)});
+makeScenario(pq,'சேக்கிழார் பாடலில் வலியுறுத்தப்படும் தருமச் செயல் எது?',['இறையடியார்களுக்கு அமுது செய்வித்தல்','உணவை வீணாக்குதல்','வீண் வார்த்தை பேசுதல்'],0,'சரி! பிறருக்கு உணவளிக்கும் தருமப் பண்பு இங்கு வலியுறுத்தப்படுகிறது.','பாடலின் “அடியார்தமை அமுதுசெய்வித்தல்” என்ற கருத்தை நினைவுகூருங்கள்.',()=>{if(++qc===2)complete(7)});
+
+function demoRead(id){let el=document.getElementById(id),txt=el.textContent.trim(),words=txt.split(/\s+/);el.innerHTML=words.map(w=>`<span>${w}</span>`).join(' ');let spans=[...el.querySelectorAll('span')],i=0;let t=setInterval(()=>{spans.forEach(x=>x.classList.remove('active'));if(i>=spans.length){clearInterval(t);return}spans[i++].classList.add('active')},420)}
+
+
+/* Chapter 2 landing/activity navigation */
+function openActivity(n){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('activityHost').style.display='block';
+  document.querySelectorAll('.activity-screen').forEach(s=>s.classList.remove('current'));
+  const target=document.querySelector('.activity-screen[data-activity="'+n+'"]');
+  if(target) target.classList.add('current');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeActivity(){
+  document.getElementById('activityHost').style.display='none';
+  document.getElementById('landing').style.display='block';
+  const c=document.getElementById('landingCount');
+  if(c && typeof done!=='undefined') c.textContent=done.size+' / 7 பயிற்சிகள் நிறைவு';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body></html>

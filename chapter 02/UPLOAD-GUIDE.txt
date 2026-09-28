@@ -1,0 +1,21 @@
+CHAPTER 2 FILE SETUP
+
+Supplementary PDF:
+  chapter 02/resources/L6-H02.pdf
+
+Audio files (one per reading passage):
+  chapter 02/audio/ch2-01.m4a
+  chapter 02/audio/ch2-02.m4a
+  chapter 02/audio/ch2-03.m4a
+  chapter 02/audio/ch2-04.m4a
+  chapter 02/audio/ch2-05.m4a
+  chapter 02/audio/ch2-06.m4a
+  chapter 02/audio/ch2-07.m4a
+  chapter 02/audio/ch2-08.m4a
+  chapter 02/audio/ch2-09.m4a
+
+Pages:
+  index.html  = Chapter 2 learning-flow menu
+  listen.html = கேட்டுப் படிப்போம்
+  read.html   = படிப்போம்
+  games.html  = விளையாடிக் கற்போம்
