@@ -363,31 +363,43 @@ function selectShrineItem(btn){
   document.querySelectorAll('#objects .object').forEach(x=>x.classList.remove('selected'));
   btn.classList.add('selected');
   shrineSelected=btn.dataset.id;
-  if(dailyShrineAnswers.has(shrineSelected)){
-    shrineFeedback('பொருள் தேர்ந்தெடுக்கப்பட்டது. இப்போது சுவாமி அறையில் உள்ள ஒரு காலியான இடத்தைத் தட்டுங்கள்.');
-  }else if(shrineSelected==='vibhuti'||shrineSelected==='rudraksha'){
-    shrineFeedback('இது சிவசின்னம். நாளாந்த வழிபாட்டிற்கு முன் பக்தர் இதைத் தரிப்பார்; இந்த நான்கு சுவாமி அறை இடங்களில் இதை வைக்க வேண்டாம்.',false,true);
-  }else if(shrineSelected==='kalasam'){
-    shrineFeedback('கலசம் விசேட பூசை அல்லது விழாக்கால வழிபாட்டில் இடம்பெறலாம். இங்கு நாளாந்த வழிபாட்டிற்கான நான்கு பொருட்களைத் தேர்ந்தெடுக்கவும்.',false,true);
-  }else{
-    shrineFeedback('இது சமய வழிபாட்டில் இடம்பெறக்கூடிய பொருள். ஆனால் இந்தச் செயலில் நாளாந்த வழிபாட்டிற்கான நான்கு பொருட்களைத் தேர்ந்தெடுக்க வேண்டும்.',false,true);
-  }
+  shrineFeedback('பொருள் தேர்ந்தெடுக்கப்பட்டது. இப்போது சுவாமி அறையில் உள்ள ஒரு காலியான இடத்தைத் தட்டுங்கள்.');
 }
 function placeShrineItem(slot){
   if(!slot||slot.dataset.empty!=='1')return;
   if(!shrineSelected){shrineFeedback('முதலில் கீழே உள்ள ஒரு பொருளைத் தேர்ந்தெடுக்கவும்.',false,true);return;}
+
   const btn=document.querySelector(`#objects .object[data-id="${shrineSelected}"]`);
   if(!btn)return;
-  if(!dailyShrineAnswers.has(shrineSelected)){selectShrineItem(btn);return;}
+  const id=shrineSelected;
+
+  if(!dailyShrineAnswers.has(id)){
+    btn.classList.remove('selected');
+    if(id==='vibhuti'||id==='rudraksha'){
+      shrineFeedback('இது சிவசின்னம். நாளாந்த வழிபாட்டிற்கு முன் பக்தர் இதைத் தரிப்பார்; சுவாமி அறையின் இந்த நான்கு இடங்களில் இதை வைக்க வேண்டாம்.',false,true);
+    }else if(id==='kalasam'){
+      shrineFeedback('கலசம் விசேட பூசை அல்லது விழாக்கால வழிபாட்டில் இடம்பெறலாம். இந்தச் செயலில் நாளாந்த வழிபாட்டிற்கான பொருளைத் தேர்ந்தெடுக்கவும்.',false,true);
+    }else{
+      shrineFeedback('இது சமய வழிபாட்டில் இடம்பெறக்கூடிய பொருள். ஆனால் இந்தச் செயலில் நாளாந்த வழிபாட்டிற்கான நான்கு பொருட்களில் ஒன்றைத் தேர்ந்தெடுக்கவும்.',false,true);
+    }
+    shrineSelected=null;
+    return;
+  }
+
   const img=btn.querySelector('img');
   slot.innerHTML=`<img src="${img.src}" alt="${img.alt||''}">`;
-  slot.dataset.empty='0';slot.classList.add('filled');
-  btn.classList.add('used');btn.classList.remove('selected');
-  shrinePlaced++;shrineSelected=null;
-  shrineFeedback(`சரி! ${shrinePlaced} / 4 பொருட்கள் வைக்கப்பட்டுள்ளன.`,true);
+  slot.dataset.empty='0';
+  slot.classList.add('filled');
+  btn.classList.add('used');
+  btn.classList.remove('selected');
+  shrinePlaced++;
+  shrineSelected=null;
+
+  shrineFeedback(`சரி! இது நாளாந்த வழிபாட்டிற்கு சுவாமி அறையில் பயன்படுத்தப்படும் பொருள். ${shrinePlaced} / 4 பொருட்கள் வைக்கப்பட்டுள்ளன.`,true);
+
   if(shrinePlaced===4){
     const d=document.getElementById('shrineDone');
-    if(d){d.style.display='block';d.textContent='சிறப்பு! நாளாந்த வழிபாட்டிற்குத் தேவையான நான்கு பொருட்களையும் சுவாமி அறையில் சரியாக வைத்துள்ளீர்கள்.'}
+    if(d){d.style.display='block';d.textContent='சிறப்பு! நாளாந்த வழிபாட்டிற்குத் தேவையான நான்கு பொருட்களையும் சுவாமி அறையில் சரியாக வைத்துள்ளீர்கள்.';}
     complete(3);
   }
 }
