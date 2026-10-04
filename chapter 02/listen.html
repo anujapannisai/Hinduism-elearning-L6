@@ -3,7 +3,7 @@
 .wrap{max-width:920px;margin:auto;padding:46px 22px 80px}.kicker{text-align:center;color:#899592;font-weight:700}.title{text-align:center;font-size:clamp(30px,5vw,48px);margin:14px 0 8px;color:#425c58}.subtitle{text-align:center;color:#9ba6a3;margin-bottom:34px}
 .back{display:inline-block;color:#208b74;text-decoration:none;font-weight:800;margin-bottom:26px}
 .mode{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:34px}.mode a{text-align:center;text-decoration:none;color:#31514d;border:2px solid #d8ebe6;border-radius:16px;padding:15px 8px;font-weight:800}.mode a.active{border-color:#1e9b7b;background:#f4fbf9}
-.pass{background:#fff;border-radius:22px;padding:24px;margin:18px 0;box-shadow:0 8px 26px rgba(44,76,70,.10)}.pass h2{margin-top:0}.text{font-size:18px;line-height:2;white-space:pre-line;color:#384f4c}.helper{background:#f2faf7;border-left:5px solid #54a68d;padding:12px 14px;border-radius:12px;margin:14px 0}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.controls button,.check button{font:inherit;border:1px solid #cfe3dd;background:#fff;border-radius:12px;padding:10px 13px}.controls button.primary{background:#208b74;color:white;border-color:#208b74}
+.pass{background:#fff;border-radius:22px;padding:24px;margin:18px 0;box-shadow:0 8px 26px rgba(44,76,70,.10)}.pass h2{margin-top:0}.text{font-size:18px;line-height:2;white-space:pre-line;color:#384f4c}.helper{background:#f2faf7;border-left:5px solid #54a68d;padding:12px 14px;border-radius:12px;margin:14px 0}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.controls button,.check button{font:inherit;border:1px solid #cfe3dd;background:#fff;border-radius:12px;padding:10px 13px}.controls button.primary{background:#208b74;color:white;border-color:#208b74}.speed-controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0 4px}.speed-controls span{font-weight:800;color:#607773}.speed-controls button{font:inherit;border:1px solid #cfe3dd;background:#fff;border-radius:999px;padding:8px 12px}.speed-controls button.active{background:#31514d;color:#fff;border-color:#31514d}
 .word.active,.sync-title.active{background:#ffe29b;border-radius:6px;box-shadow:0 0 0 3px #ffe29b}.sync-title{display:inline-block;transition:background .15s ease}.check{border-top:1px solid #e5efec;margin-top:18px;padding-top:16px}.check .opts{display:grid;gap:8px}.feedback{min-height:28px;margin-top:9px;font-weight:700}.good{color:#2e7a4c}.bad{color:#a84d43}
 .resource{border:2px dashed #b9d8cf;background:#f8fcfb;border-radius:20px;padding:22px;margin:34px 0}.resource a{display:inline-block;margin-top:8px;background:#208b74;color:#fff;text-decoration:none;padding:11px 15px;border-radius:12px;font-weight:800}
 .resource .missing{color:#8b9693;font-size:14px}.footer{border-top:1px solid #d9e9e5;margin-top:70px;padding-top:28px;text-align:center;color:#afd0c8;line-height:1.7}
@@ -18,6 +18,7 @@
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(1,this)">▶ கேட்போம்</button><button onclick="restartAudio(1)">↻ மீண்டும்</button></div>
 <audio id="aud1" preload="metadata" src="audio/L6-H02-01.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(1,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(1,1,this)">சாதாரணம்</button><button onclick="setSpeed(1,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt1">நாம் எமது வாழ்வில் நாளாந்தம் செய்யும் செயற்பாடுகள் நித்திய கருமங்கள் எனப்படும். அவற்றைச் செய்யும் போது இறை சிந்தனையுடன் செய்ய வேண்டும். நாம் செய்யக் கூடிய நித்திய கருமங்கள் பல உள்ளன. அவற்றுள் சிலவற்றைத் தெரிந்து கொள்ளுவோம்.
 
 நாம் கடவுளுடைய படைப்புக்கள். அவர் அருளால் நாம் வாழ்கிறோம். கடவுளிடம் மிகுந்த பக்தி உடையவர்களாக இருந்தால் அவர் அருள் நமக்குக் கிடைக்கும். நாள்தோறும் பலமுறை அவரை நினைக்க வேண்டும். அவ்வாறு இறைவனை நினைப்பதற்கு ஏற்ற வழிமுறைகளை நம் முன்னோர் ஒழுங்குபடுத்தி உள்ளனர்.</div>
@@ -25,31 +26,37 @@
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(2,this)">▶ கேட்போம்</button><button onclick="restartAudio(2)">↻ மீண்டும்</button></div>
 <audio id="aud2" preload="metadata" src="audio/L6-H02-02.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(2,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(2,1,this)">சாதாரணம்</button><button onclick="setSpeed(2,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt2">அதிகாலையில் சூரியன் உதிப்பதற்கு முன் நித்திரை விட்டெழுதல் வேண்டும். எழும்பும் போது இறைவனை நினைத்துக் கொண்டு எழும்புதல் வேண்டும். பின் காலைக் கடன்களை முடித்துக் கொண்டு, நீராடித், தூய ஆடை அணிதல் வேண்டும். அதன் பின் விபூதி, உருத்திராக்கம் முதலான சிவசின்னங்களைச் சிவசிந்தனையுடன் தரித்துக் கொண்டு, இறைவனை வழிபடல் வேண்டும்.</div>
 <div class="feedback" id="af2"></div></section><section class="pass" data-n="3"><div style="color:#9bb8b1;font-weight:800">பகுதி 3 / 9</div><h2 id="title3" class="sync-title">சிவசின்னங்கள்</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(3,this)">▶ கேட்போம்</button><button onclick="restartAudio(3)">↻ மீண்டும்</button></div>
 <audio id="aud3" preload="metadata" src="audio/L6-H02-03.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(3,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(3,1,this)">சாதாரணம்</button><button onclick="setSpeed(3,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt3">விபூதியை உத்தூளனமாகவேனும் (பரவிப் பூசுதல்), திரிபுண்டரமாகவேனும் (மூன்று குறியாக) தரித்தல் வேண்டும்.</div>
 <div class="feedback" id="af3"></div></section><section class="pass" data-n="4"><div style="color:#9bb8b1;font-weight:800">பகுதி 4 / 9</div><h2 id="title4" class="sync-title">இறைவனை வழிபடுதல்</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(4,this)">▶ கேட்போம்</button><button onclick="restartAudio(4)">↻ மீண்டும்</button></div>
 <audio id="aud4" preload="metadata" src="audio/L6-H02-04.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(4,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(4,1,this)">சாதாரணம்</button><button onclick="setSpeed(4,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt4">இறைவனை வழிபடும் போது சுவாமி அறையில் அல்லது அதற்குரிய இடத்தில் விளக்கேற்றிப், பூக்களை வைத்து, தூப தீபங்கள் காட்டி, திருமுறைப் பாடல்களைப் பாடி, வழிபடுதல் வேண்டும். வழிபாட்டின் போது நமக்காக இறைவனிடம் பிரார்த்திக்கின்றோம். அவ்வாறே குடும்பத்தவர், அயலவர், நண்பர் அனைவரும் நலமாகவும், நல்லவர்களாகவும் வாழப் பிரார்த்திக்க வேண்டும். இறைவன், குழந்தைகளின் பிரார்த்தனைகளுக்குச் செவிமடுப்பவர். அதனால் நீங்கள், அவரிடம் நல்லவற்றை வேண்டிப் பிரார்த்தனை செய்ய வேண்டும்.</div>
 <div class="feedback" id="af4"></div></section><section class="pass" data-n="5"><div style="color:#9bb8b1;font-weight:800">பகுதி 5 / 9</div><h2 id="title5" class="sync-title">பெற்றோரை வணங்குதல்</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(5,this)">▶ கேட்போம்</button><button onclick="restartAudio(5)">↻ மீண்டும்</button></div>
 <audio id="aud5" preload="metadata" src="audio/L6-H02-05.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(5,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(5,1,this)">சாதாரணம்</button><button onclick="setSpeed(5,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt5">நாம் காலையும் மாலையும் இறைவனை வழிபடுகின்றோம் அல்லவா? அவ்வாறு, காலையும் மாலையும் இறைவனை வழிபட்டபின், பெற்றோரின் கால்களில் வீழ்ந்து வணங்குதல் வேண்டும். அதனை வாழ்வில் பழக்கமாகக் கொள்ள வேண்டும். பெற்றோர் எமது கண்கண்ட தெய்வங்கள் ஆவர். அவர்களது ஆசீர்வாதம் எம்மை நன்கு வாழ வைக்கும்.</div>
 <div class="feedback" id="af5"></div></section><section class="pass" data-n="6"><div style="color:#9bb8b1;font-weight:800">பகுதி 6 / 9</div><h2 id="title6" class="sync-title">புனிதம் பேணுதல்</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(6,this)">▶ கேட்போம்</button><button onclick="restartAudio(6)">↻ மீண்டும்</button></div>
 <audio id="aud6" preload="metadata" src="audio/L6-H02-06.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(6,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(6,1,this)">சாதாரணம்</button><button onclick="setSpeed(6,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt6">நித்திய கருமங்களில் புனிதம் பேணுதல் நல்ல செயலாகும். வழிபாடு செய்யும் இடங்களை மட்டுமன்றி, வீட்டின் எல்லா இடங்களையும் புனிதமாக வைத்திருக்கப் பழக வேண்டும். அதற்கு வீட்டிலுள்ள பெரியோர்களுடன் இணைந்து நீங்களும் உதவி புரிய வேண்டும்.</div>
 <div class="feedback" id="af6"></div></section><section class="pass" data-n="7"><div style="color:#9bb8b1;font-weight:800">பகுதி 7 / 9</div><h2 id="title7" class="sync-title">உணவு உண்ணும் முறை</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(7,this)">▶ கேட்போம்</button><button onclick="restartAudio(7)">↻ மீண்டும்</button></div>
 <audio id="aud7" preload="metadata" src="audio/L6-H02-07.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(7,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(7,1,this)">சாதாரணம்</button><button onclick="setSpeed(7,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt7">உணவு உண்ணத் தொடங்கும் முன்பும் இறைவனை நினைந்து வணங்க வேண்டும். உணவு உண்ணத் தொடங்கும் போது பாடக் கூடிய திருமுறைப் பாடல்கள் சைவத் திருமுறைகளில் உள்ளன. 'அன்னம் பாலிக்கும்' என்னும் தேவாரமும், 'மண்ணிற் பிறந்தார் பெறும் பயன்' என்னும் பெரியபுராணப் பாடலும் அவற்றுள் சிலவாகும்.
 
 நாம் உண்ணும் உணவில் ஒரு பகுதியைப் பசு, காகம், கோழி முதலான பிராணிகளுக்கு இடுதல் நல்ல பண்பாகும். இவற்றுடன் உண்ணும் போது, வீண் வார்த்தைகளைப் பேசாதிருத்தல் வேண்டும். உணவை வீணாக்குதல் கூடாது.</div>
@@ -57,11 +64,13 @@
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(8,this)">▶ கேட்போம்</button><button onclick="restartAudio(8)">↻ மீண்டும்</button></div>
 <audio id="aud8" preload="metadata" src="audio/L6-H02-08.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(8,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(8,1,this)">சாதாரணம்</button><button onclick="setSpeed(8,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt8">நாம் சிறியவர்களாக இருக்கும் போதே, பெற்றோரின் உதவியுடன் தருமச் செயல்களில் ஈடுபட வேண்டும். நாள்தோறும் இல்லாவிட்டாலும் குறிப்பிட்ட நாட்களில் இறை அர்ப்பணமாக அடியவர்கள், ஏழைகள், அகதிகள் முதலானவர்களுக்கு உணவளித்தல், ஆதரவளித்தல் முதலான தருமச் செயல்களில் ஈடுபட வேண்டும். இது எமது சமூகக் கடமையாகும்.</div>
 <div class="feedback" id="af8"></div></section><section class="pass" data-n="9"><div style="color:#9bb8b1;font-weight:800">பகுதி 9 / 9</div><h2 id="title9" class="sync-title">திருமுறைப் பாடல்கள்</h2>
 <div class="helper">முதலில் கேட்டு எழுத்துகளைப் பின்தொடருங்கள். பின்னர் ஒலியுடன் சேர்ந்து வாசித்துப் பாருங்கள்.</div>
 <div class="controls"><button class="primary" onclick="playAudio(9,this)">▶ கேட்போம்</button><button onclick="restartAudio(9)">↻ மீண்டும்</button></div>
 <audio id="aud9" preload="metadata" src="audio/L6-H02-09.m4a"></audio>
+<div class="speed-controls" aria-label="Playback speed"><span>வேகம்:</span><button onclick="setSpeed(9,0.75,this)">மெதுவாக</button><button class="active" onclick="setSpeed(9,1,this)">சாதாரணம்</button><button onclick="setSpeed(9,1.25,this)">வேகமாக</button></div>
 <div class="text follow" id="txt9">அன்னம் பாலிக்கும் தில்லைச் சிற்றம்பலம்
 பொன்னம் பாலிக்கும்; மேலும், இப் பூமிசை
 என் அன்பு ஆலிக்கும் ஆறு கண்டு, இன்பு உற
@@ -121,6 +130,13 @@ function playAudio(n){
   });
 }
 function restartAudio(n){const a=document.getElementById('aud'+n);a.currentTime=0;playAudio(n)}
+function setSpeed(n,rate,btn){
+  const a=document.getElementById('aud'+n);
+  a.playbackRate=rate;
+  const box=btn.closest('.speed-controls');
+  box.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
 for(let n=1;n<=9;n++){
   const a=document.getElementById('aud'+n);
   a.addEventListener('play',()=>syncHighlight(n,a));
