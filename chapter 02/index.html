@@ -11,7 +11,16 @@
 @media(max-width:650px){.wrap{padding:34px 16px 60px}.mode{grid-template-columns:1fr}.text{font-size:17px}.pass{padding:18px}}
 
 .flow{display:grid;gap:14px}.flow a{text-decoration:none;color:#31514d;background:#fff;border-radius:22px;padding:22px;box-shadow:0 8px 26px rgba(44,76,70,.10);display:block}.flow strong{font-size:21px;display:block;margin-bottom:7px}.flow span{color:#88a39d;line-height:1.6}
-</style><link rel="stylesheet" href="../assignment-status.css"></head><body>
+</style><link rel="stylesheet" href="../assignment-status.css"><style id="chapter-feedback-style">
+.chapter-feedback{background:#f8fcfb;border:2px solid #d8ebe6;border-radius:22px;padding:24px;margin:34px 0;box-shadow:0 8px 26px rgba(44,76,70,.08)}
+.chapter-feedback h2{margin:0 0 6px;color:#425c58}.chapter-feedback .feedback-sub{color:#78908b;margin:0 0 22px}
+.feedback-question{border:0;padding:0;margin:22px 0}.feedback-question legend{font-weight:800;margin-bottom:12px;color:#31514d}
+.feedback-options{display:grid;gap:10px}.feedback-option{display:flex;align-items:center;gap:10px;border:1px solid #d8ebe6;border-radius:14px;padding:12px 14px;background:#fff;cursor:pointer}
+.feedback-option:has(input:checked){border-color:#208b74;background:#f2faf7}.feedback-option input{width:18px;height:18px;accent-color:#208b74}
+.chapter-feedback textarea{width:100%;min-height:90px;border:1px solid #cfe3dd;border-radius:14px;padding:12px;font:inherit;resize:vertical}
+.feedback-submit{background:#208b74;color:#fff;border:0;border-radius:12px;padding:12px 18px;font:inherit;font-weight:800;cursor:pointer}
+.feedback-submit:disabled{opacity:.55;cursor:not-allowed}.feedback-note{font-size:13px;color:#82938f;margin-top:12px;line-height:1.5}.feedback-message{margin-top:14px;font-weight:800}.feedback-thanks{text-align:center;padding:16px 4px}.feedback-thanks h3{color:#2e7a4c;font-size:24px;margin:0 0 8px}
+</style></head><body>
 <aside class="assignment-status assignment-banner assignment-assigned" aria-label="Chapter 2 assignment status"><strong lang="en">Chapter 2 — Assigned</strong><p lang="en">Chapter 2 is now assigned. Use the listening, reading, and learning activities for this unit.</p><p lang="ta">அலகு 2 இப்போது ஒப்படைக்கப்பட்டுள்ளது. கேட்டுப் படிப்போம், படிப்போம், விளையாடிக் கற்போம் பகுதிகளைப் பயன்படுத்துங்கள்.</p></aside><main class="wrap"><div class="kicker">தரம் 6 • சைவ சமயம்</div><h1 class="title">அலகு 2 — நித்திய கருமங்கள்</h1><div class="subtitle">கேட்போம் • வாசிப்போம் • புரிந்ததைப் பயன்படுத்துவோம்</div>
 <a class="back" href="../index.html">← தரம் 6 முகப்பு</a>
 <div class="flow">
@@ -20,5 +29,45 @@
 <a href="games.html"><strong>③ 🎮 விளையாடிக் கற்போம்</strong><span>வரிசைப்படுத்தல், பொருத்துதல், சுவாமி அறை, வாழ்க்கைச் சூழல்கள் மூலம் கற்றதை நினைவுகூர்ந்து பயன்படுத்துவோம்.</span></a>
 </div>
 <div class="resource"><h2>📄 மேலதிக கற்றல் வளம்</h2><p>அலகு 2-க்கான supplementary PDF-ஐ இங்கே திறந்து பார்க்கலாம்.</p><a href="L6-H02.pdf" target="_blank">PDF-ஐத் திறக்கவும்</a></div>
-<footer class="footer">© 2026 Anuja — Supplementary design & e-learning activities.<br>Textbook content © respective copyright owner. Created independently as a supplementary educational resource. Not for commercial reproduction or redistribution.</footer>
+<section class="chapter-feedback" id="chapter-feedback" data-chapter="2" aria-labelledby="feedback-title-2">
+<h2 id="feedback-title-2">⭐ பாடம் எப்படி இருந்தது?</h2>
+<p class="feedback-sub">How was this lesson?</p>
+<form id="feedback-form-2">
+<fieldset class="feedback-question"><legend>This lesson was…</legend><div class="feedback-options">
+<label class="feedback-option"><input type="radio" name="understanding" value="understood-well" required> <span>😄 I understood it well</span></label>
+<label class="feedback-option"><input type="radio" name="understanding" value="mostly-understood"> <span>🙂 Mostly understood</span></label>
+<label class="feedback-option"><input type="radio" name="understanding" value="little-difficult"> <span>😐 A little difficult</span></label>
+<label class="feedback-option"><input type="radio" name="understanding" value="need-more-help"> <span>😕 I need more help</span></label>
+</div></fieldset>
+<fieldset class="feedback-question"><legend>What helped you learn? <span style="font-weight:400">(Choose all that apply.)</span></legend><div class="feedback-options">
+<label class="feedback-option"><input type="checkbox" name="helped" value="pictures"> <span>🖼️ Pictures</span></label>
+<label class="feedback-option"><input type="checkbox" name="helped" value="audio"> <span>🔊 Audio</span></label>
+<label class="feedback-option"><input type="checkbox" name="helped" value="activities"> <span>🎮 Activities</span></label>
+<label class="feedback-option"><input type="checkbox" name="helped" value="reading"> <span>📖 Reading</span></label>
+<label class="feedback-option"><input type="checkbox" name="helped" value="teacher-explanation"> <span>💬 Teacher explanation</span></label>
+</div></fieldset>
+<div class="feedback-question"><label for="feedback-comment-2"><strong>Anything we should improve?</strong> <span>(Optional)</span></label><textarea id="feedback-comment-2" name="comment" maxlength="500" placeholder="Type here..."></textarea></div>
+<button class="feedback-submit" type="submit">Submit feedback</button>
+<p class="feedback-note">Anonymous feedback • one submission per chapter on this browser.</p><div class="feedback-message" role="status" aria-live="polite"></div>
+</form></section><script id="chapter-feedback-script">
+(function(){
+ const box=document.getElementById('chapter-feedback'); if(!box)return;
+ const chapter=box.dataset.chapter, key='l6-hinduism-feedback-chapter-'+chapter;
+ const form=box.querySelector('form'), msg=box.querySelector('.feedback-message');
+ function thanked(){box.innerHTML='<div class="feedback-thanks"><h3>✅ நன்றி!</h3><p>Your feedback has been recorded.</p><p>உங்கள் கருத்துக்கு நன்றி.</p></div>';}
+ if(localStorage.getItem(key)==='submitted'){thanked();return;}
+ form.addEventListener('submit',function(e){
+   e.preventDefault();
+   if(!form.reportValidity())return;
+   const endpoint=window.HINDUISM_FEEDBACK_ENDPOINT||'';
+   if(!endpoint){msg.textContent='Feedback form is ready, but online collection has not been connected yet.';return;}
+   const data=new FormData(form);
+   const payload={chapter:chapter,understanding:data.get('understanding'),helped:data.getAll('helped'),comment:(data.get('comment')||'').trim(),submittedAt:new Date().toISOString()};
+   const button=form.querySelector('button[type="submit"]'); button.disabled=true; msg.textContent='Submitting…';
+   fetch(endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+    .then(function(){localStorage.setItem(key,'submitted');thanked();})
+    .catch(function(){button.disabled=false;msg.textContent='Could not submit right now. Please try again.';});
+ });
+})();
+</script><footer class="footer">© 2026 Anuja — Supplementary design & e-learning activities.<br>Textbook content © respective copyright owner. Created independently as a supplementary educational resource. Not for commercial reproduction or redistribution.</footer>
 </main></body></html>
