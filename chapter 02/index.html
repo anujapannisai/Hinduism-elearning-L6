@@ -59,7 +59,7 @@
  form.addEventListener('submit',function(e){
    e.preventDefault();
    if(!form.reportValidity())return;
-   const endpoint=window.HINDUISM_FEEDBACK_ENDPOINT||'';
+   const endpoint='https://script.google.com/macros/s/AKfycbwGScjQ1Frf21vPCrwAeb4ZKyaNk-TsOYK_yLRMIsb0CO74sAh77GQBBEaI08qxKLw_ig/exec';
    if(!endpoint){msg.textContent='Feedback form is ready, but online collection has not been connected yet.';return;}
    const data=new FormData(form);
    const payload={chapter:chapter,understanding:data.get('understanding'),helped:data.getAll('helped'),comment:(data.get('comment')||'').trim(),submittedAt:new Date().toISOString()};
