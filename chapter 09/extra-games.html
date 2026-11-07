@@ -16,9 +16,9 @@ const sets=[
 let selected=0,position=0,score=0;
 const el=id=>document.getElementById(id);
 function start(n){selected=n;position=0;score=0;el("menu").classList.add("hidden");el("play").classList.remove("hidden");el("heading").textContent=sets[n].title;render();scrollTo(0,0)}
-function back(){el("play").classList.add("hidden");el("menu").classList.remove("hidden");scrollTo(0,0)}
+function back(){window.location.href="games.html"}
 function render(){const items=sets[selected].items;el("feedback").classList.add("hidden");el("next").classList.add("hidden");if(position===items.length){el("count").textContent="முடிவு";el("prompt").textContent="🏆 "+score+" / "+items.length+" சரியான விடைகள்!";el("answers").replaceChildren();const b=document.createElement("button");b.textContent="↻ மீண்டும் விளையாடு";b.onclick=()=>start(selected);el("answers").append(b);return}const q=items[position];el("count").textContent="கேள்வி "+(position+1)+" / "+items.length;el("prompt").textContent=q[0];el("answers").replaceChildren();q[1].forEach((option,i)=>{const b=document.createElement("button");b.textContent=option;b.onclick=()=>choose(i);el("answers").append(b)})}
 function choose(i){const q=sets[selected].items[position];if(i===q[2])score++;el("answers").querySelectorAll("button").forEach(b=>b.disabled=true);el("feedback").textContent=(i===q[2]?"✓ சரியான விடை! ":"சரியான விடை: "+q[1][q[2]]+". ")+q[3];el("feedback").classList.remove("hidden");el("next").classList.remove("hidden")}
 function advance(){position++;render()}
-const requestedGame=new URLSearchParams(location.search).get("game");if(["9","10","11"].includes(requestedGame))start(Number(requestedGame)-9);
+const requestedGame=new URLSearchParams(location.search).get("game");if(["9","10","11"].includes(requestedGame))start(Number(requestedGame)-9);else window.location.replace("games.html");
 </script></body></html>
